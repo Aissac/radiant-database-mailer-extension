@@ -1,0 +1,22 @@
+.search, .results               {width:100%;}
+.search td                      {padding:10px 4px;}
+tr.grey_bg, tr.grey_bg          {background-color:#F5F5F5;font-size:93%;}
+tr.grey_bg td, tr.grey_bg th    {padding:2px 4px;margin:10px 0 0 0;text-align:left;font-weight:normal;}
+.search a, .search a:visited    {font-size:93%;color:#000;}
+.results th div                 {float:left;}
+.results th div.pagination      {float:right;padding-right:50px;}
+.results .created_at            {width:150px;}
+.results .url                   {width:200px;}
+.results th                     {text-align:left;padding:5px;}
+.results td                     {border-bottom:1px solid #EAEAEA;border-top:1px solid #EAEAEA;padding:5px;}
+.results tbody tr:hover         {background-color:#ffffb3;}
+.results a, .results a:visited  {color:#000;}
+.pagination                     {text-align: center;}
+.pagination a, .pagination span {padding: .2em .3em;}
+.pagination span.disabled       {color: #AAA;}
+.pagination span.current        {font-weight: bold;background: transparent url(/images/admin/circle.gif) no-repeat 50% 50%; }
+.pagination a                   {text-decoration: none;color: black;}
+.pagination a:hover, .pagination a:focus 
+                                {text-decoration: underline; }
+.results a.sort_asc             {background:transparent url(/images/admin/asc.gif) no-repeat right center;padding-right:15px;}
+.results a.sort_desc            {background:transparent url(/images/admin/desc.png) no-repeat right center;padding-right:15px;}

@@ -1,0 +1,53 @@
+<% include_stylesheet 'admin/database_mailer'%>
+
+<% form_tag({}, {:class => 'noclass', :method => :get}) do %>
+  <%= hidden_field_tag(:reset, 1) %> 
+  <table class="search">
+    <tr class="grey_bg"><td>Search:</td></tr>
+    <tr>
+      <td>
+        <label for="url">URL:</label>
+        <%= select_tag("url", '<option value="">- All -</option>'+options_from_collection_for_select(@urls, "url", "url", list_params[:url])) %> 
+        <% each_data_column do |k| %>
+          <label for="<%=k %>"><%= k.to_s.titleize %>:</label>
+          <%= text_field_tag(k, list_params[k]) %>
+        <% end %>
+        <%= filter_actions_tag %>
+      </td>
+    </tr>
+  </table>
+  <table class="results">
+    <thead>
+      <tr class="grey_bg">
+        <th colspan="<%=data_columns.size + 3 %>">
+          <div><%= page_entries_info @saved_items %>:</div> 
+          <%= @pagination = will_paginate @saved_items %>
+        </th>
+      </tr>
+      <tr>
+        <th class="created_at"><%= sortable_column_head("Created at", :created_at) %></th>
+        <th class="url"><%= sortable_column_head("URL", :url) %></th>
+        <% each_data_column do |k| %>
+        <th><%= sortable_column_head("#{k.to_s.titleize}", k) %></th>
+        <% end -%>
+      </tr>
+    </thead>
+    <tbody>
+        <% @saved_items.each do |si| %>
+        <tr>
+        <td><%= date_format(si.created_at) %></td>
+        <td><%= si.url %></td>
+          <%= data_columns.map {|k| "<td>#{si.send(k)}</td>"} %>
+        </tr>
+        <% end -%>
+        <% if @saved_items.empty? %>
+          <tr><td colspan="<%= data_columns.size + 2 %>">No results!</td></tr>
+        <% end %>
+    </tbody>
+    <tfoot>
+      <tr class="grey_bg">
+        <th colspan="<%=data_columns.size + 3 %>"><%= will_paginate @saved_items %></th>
+      </tr>
+    </tfoot>
+  </table>
+<% end -%>
