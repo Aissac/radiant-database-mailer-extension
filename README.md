@@ -10,7 +10,7 @@ Features
 ---
 
 * Record sent forms to the database
-* Skip mail delivery (only record to database)
+* Skip saving certain forms
 * Add fields to be saved without loosing data
 
 Installation
@@ -50,6 +50,16 @@ Finally, create your Mailer pages and make sure to use the same field names:
     </r:mailer:form>
     
 Look at the Mailer Extension README for information on how to configure mail delivery.
+
+If you set `save_to_database` to false in the Mailer config, saving to the database is skipped and just mail delivery takes place. Example (in the `mailer` part of the page):
+
+    subject: From the website of Whatever
+    from: noreply@example.com
+    redirect_to: /contact/thank-you
+    save_to_database: false
+    recipients:
+      - one@one.com
+      - two@two.com
 
 Fields that are not specified by `DATABASE_MAILER_COLUMNS` are silently ignored.
 
