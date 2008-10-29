@@ -1,21 +1,40 @@
 <% include_stylesheet 'admin/database_mailer'%>
+<% include_javascript 'admin/database_mailer'%>
 
-<% form_tag({}, {:class => 'noclass', :method => :get}) do %>
-  <%= hidden_field_tag(:reset, 1) %> 
-  <table class="search">
-    <tr class="grey_bg"><td>Search:</td></tr>
-    <tr>
-      <td>
-        <label for="url">URL:</label>
-        <%= select_tag("url", '<option value="">- All -</option>'+options_from_collection_for_select(@urls, "url", "url", list_params[:url])) %> 
+<div id="filtering">
+  <div id="filters">
+    <a id="expander" href="javascript:;">See filters</a>
+      <div id="current_filters">
+    <% filters_present do %>
+      Applied filters: <%= current_filters %>
+      <%= link_to("Reset", :reset => 1) %>
+    <% end %>
+      </div>
+  </div>
+  <div id="form" style="display:none;">
+    <% form_tag({}, {:id => 'search_form', :method => :get}) do %>
+      <%= hidden_field_tag(:reset, 1) %> 
+      <table class="search">
+        <tr>
+          <th><label for="url">URL:</label></th>
+          <td colspan="2"><%= select_tag("url", '<option value="">- All -</option>'+options_from_collection_for_select(@urls, "url", "url", list_params[:url])) %> </td>
+        </tr>
         <% each_data_column do |k| %>
-          <label for="<%=k %>"><%= k.to_s.titleize %>:</label>
-          <%= text_field_tag(k, list_params[k]) %>
+          <tr>
+            <th><label for="<%=k %>"><%= k.to_s.titleize %>:</label></th>
+            <td colspan="2"><%= text_field_tag(k, list_params[k]) %></td>
+          </tr>
         <% end %>
-        <%= filter_actions_tag %>
-      </td>
-    </tr>
-  </table>
+        <tr>
+          <td>&nbsp;</td>
+          <td><%= filter_actions_tag %></td>
+          <td><a href="javascript:close();">Close</a></td>
+        </tr>
+      </table>
+    <% end -%>
+  </div>
+</div>
+<div id="results">
   <table class="results">
     <thead>
       <tr class="grey_bg">
@@ -50,4 +69,4 @@
       </tr>
     </tfoot>
   </table>
-<% end -%>
+  </div>
