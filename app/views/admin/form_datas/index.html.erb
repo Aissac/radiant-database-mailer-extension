@@ -12,7 +12,7 @@
       </div>
   </div>
   <div id="form" style="display:none;">
-    <% form_tag({}, {:id => 'search_form', :method => :get}) do %>
+    <% form_tag({}, {:method => :get}) do %>
       <%= hidden_field_tag(:reset, 1) %> 
       <table class="search">
         <tr>
@@ -33,6 +33,21 @@
       </table>
     <% end -%>
   </div>
+  <div id="x_filters">
+    <a id="x_expander" href="javascript:;">See export options</a>
+  </div>
+  <div id="x_form" style="display:none;">
+    <% form_tag(formatted_form_datas_path(:format => "csv"), {:method => :get}) do %>
+    <%= list_params.map {|k,v| hidden_field_tag(k, v) }.join %>
+      <table class="export">
+        <tr>
+          <td><%= submit_tag("Export") %></td>
+          <td><%= link_to ('Export', :controller => "form_datas", :action => "index", :format => "csv") %></td>
+          <td><a href="javascript:closeX();">Close</a></td>
+        </tr>
+      </table>
+    <% end -%>
+  </div>
 </div>
 <div id="results">
   <table class="results">
@@ -49,6 +64,7 @@
         <% each_data_column do |k| %>
         <th><%= sortable_column_head("#{k.to_s.titleize}", k) %></th>
         <% end -%>
+        <th class="url"><%= sortable_column_head("Exported", :exported) %></th>
       </tr>
     </thead>
     <tbody>
@@ -57,6 +73,7 @@
         <td><%= date_format(si.created_at) %></td>
         <td><%= si.url %></td>
           <%= data_columns.map {|k| "<td>#{si.send(k)}</td>"} %>
+        <td><%= si.exported ? date_format(si.exported) : 'no' %></td>
         </tr>
         <% end -%>
         <% if @saved_items.empty? %>

@@ -23,13 +23,15 @@ tr.grey_bg td, tr.grey_bg th    {padding:2px 4px;margin:10px 0 0 0;text-align:le
                                 {text-decoration: underline; }
 .results a.sort_asc             {background:transparent url(/images/admin/asc.gif) no-repeat right center;padding-right:15px;}
 .results a.sort_desc            {background:transparent url(/images/admin/desc.gif) no-repeat right center;padding-right:15px;}
-#filtering                      {position:relative;width:350px;}
+#filtering                      {position:relative;}
 #expander                       {outline:none;border:3px solid #FFF;z-index:100;border-bottom:none;
                                  padding:5px 10px 9px 10px;color:#000;position:absolute;}
+#x_expander                     {outline:none;border:3px solid #FFF;z-index:100;border-bottom:none;
+                                 padding:5px 10px 9px 10px;color:#000;position:absolute;right:0;}
 #form                           {border:3px solid silver;z-index:10;position:absolute;width:350px;background-color:#F5F5F5;padding-top:10px;top:32px;}
+#x_form                         {border:3px solid silver;z-index:10;position:absolute;width:350px;background-color:#F5F5F5;padding-top:10px;top:32px;right:0;}
 #current_filters                {margin-left:100px;padding-top:8px;position:absolute;width:600px;}
 #current_filters a              {color:#000;}
-#filtering.expanded             {}
-#filtering.expanded #expander   {border:3px solid silver;border-bottom:none;text-decoration:none;
-                                 background-color:#F5F5F5;}
+#filters.expanded #expander,#x_filters.expanded #x_expander   
+                                {border:3px solid silver;border-bottom:none;text-decoration:none;background-color:#F5F5F5;}
 #results                        {margin-top:40px;}

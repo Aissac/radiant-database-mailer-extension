@@ -28,6 +28,10 @@ module Admin::FormDatasHelper
     DATABASE_MAILER_COLUMNS.keys
   end
   
+  def export_columns
+    DATABASE_MAILER_COLUMNS.keys + [:url]
+  end
+  
   def date_format(timestamp)
     timestamp && timestamp.to_date.to_s(:rfc822)
   end

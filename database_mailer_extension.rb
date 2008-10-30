@@ -7,7 +7,8 @@ class DatabaseMailerExtension < Radiant::Extension
   url "http://github.com/ihoka/radiant-database-mailer-extension"
   
   define_routes do |map|
-    map.connect 'admin/database_mailer/:action', :controller => 'admin/form_datas'
+    # map.connect 'admin/database_mailer/:action', :controller => 'admin/form_datas'
+    map.resources :form_datas, :path_prefix => '/admin', :controller => 'admin/form_datas'
   end
   
   def activate
@@ -18,7 +19,7 @@ class DatabaseMailerExtension < Radiant::Extension
       alias_method_chain :process_mail, :database
     end
     WillPaginate.enable_named_scope
-    admin.tabs.add "Database Mailer", "/admin/database_mailer", :after => "Layouts", :visibility => [:all]
+    admin.tabs.add "Database Mailer", "/admin/form_datas", :after => "Layouts", :visibility => [:all]
   end
   
   def deactivate

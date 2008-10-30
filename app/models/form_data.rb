@@ -7,7 +7,7 @@ class FormData < ActiveRecord::Base
   end
   named_scope :by_url, lambda{ |item| {:conditions => ["url = ?", item]}}
   
-  SORT_COLUMNS = DATABASE_MAILER_COLUMNS.keys.map(&:to_s) + ['created_at', 'url']
+  SORT_COLUMNS = DATABASE_MAILER_COLUMNS.keys.map(&:to_s) + ['created_at', 'url', 'exported']
 
   def self.form_paginate(params)
     options = {
@@ -20,6 +20,15 @@ class FormData < ActiveRecord::Base
     params.reject { |k, v| [:page, :sort_by, :sort_order].include?(k) }.
       inject(FormData) { |scope, pair| pair[1].blank? ? scope : scope.send(:"by_#{pair[0]}", pair[1]) }.
       paginate(options)
+  end
+  
+  def self.find_for_export(params)
+    options = {}
+    if SORT_COLUMNS.include?(params[:sort_by]) && %w(asc desc).include?(params[:sort_order])
+      options[:order] = "#{params[:sort_by]} #{params[:sort_order]}"
+    end
+    params.reject { |k, v| [:page, :sort_by, :sort_order].include?(k) }.
+      inject(FormData) { |scope, pair| pair[1].blank? ? scope : scope.send(:"by_#{pair[0]}", pair[1]) }.find(:all, :order => options[:order])
   end
 
   def self.find_all_group_by_url
