@@ -8,7 +8,7 @@
     <% filters_present do %>
       Applied filters: <%= current_filters %>
       <%= link_to("Reset", :reset => 1) %>
-    <% end %>
+    <% end -%>
       </div>
   </div>
   <div id="form" style="display:none;">
@@ -40,10 +40,23 @@
     <% form_tag(formatted_form_datas_path(:format => "csv"), {:method => :get}) do %>
     <%= list_params.map {|k,v| hidden_field_tag(k, v) }.join %>
       <table class="export">
+        <tr><td colspan='2'>Choose the columns you want to export:</td></tr>
+        <% export_columns.each do |ec| %>
         <tr>
-          <td><%= submit_tag("Export") %></td>
-          <td><%= link_to ('Export', :controller => "form_datas", :action => "index", :format => "csv") %></td>
-          <td><a href="javascript:closeX();">Close</a></td>
+          <th><%= check_box_tag "export_#{ec}", ec, true %></th>
+          <td><label for="export_<%= ec %>"><%= ec.capitalize %></label></td>
+        </tr>
+        <% end %>
+        <tr>
+          <th><%= check_box_tag "include_all", "yes" %></th>
+          <td><label for="include_all">Include allready exported</label></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td>
+            <%= submit_tag("Export") %>
+            <a href="javascript:closeX();">Close</a>
+          </td>
         </tr>
       </table>
     <% end -%>

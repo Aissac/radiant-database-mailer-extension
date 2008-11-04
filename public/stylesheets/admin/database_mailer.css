@@ -1,9 +1,10 @@
-.search, .results               {width:100%;}
-.search th                      {text-align:right;}
-.search td                      {padding:5px 4px;}
+.search, .export, .results      {width:100%;}
+.search th, .export th          {text-align:right;}
+.search td, .export td          {padding:5px 4px;}
 tr.grey_bg, tr.grey_bg          {background-color:#F5F5F5;font-size:93%;}
 tr.grey_bg td, tr.grey_bg th    {padding:2px 4px;margin:10px 0 0 0;text-align:left;font-weight:normal;}
-.search a, .search a:visited    {font-size:93%;color:#000;}
+.search a, .search a:visited, .export a, .export a:visited
+                                {font-size:93%;color:#000;}
 .search select, .search input[type=text]   
                                 {width:150px;}
 .results th div                 {float:left;}
@@ -28,8 +29,9 @@ tr.grey_bg td, tr.grey_bg th    {padding:2px 4px;margin:10px 0 0 0;text-align:le
                                  padding:5px 10px 9px 10px;color:#000;position:absolute;}
 #x_expander                     {outline:none;border:3px solid #FFF;z-index:100;border-bottom:none;
                                  padding:5px 10px 9px 10px;color:#000;position:absolute;right:0;}
-#form                           {border:3px solid silver;z-index:10;position:absolute;width:350px;background-color:#F5F5F5;padding-top:10px;top:32px;}
-#x_form                         {border:3px solid silver;z-index:10;position:absolute;width:350px;background-color:#F5F5F5;padding-top:10px;top:32px;right:0;}
+#form, #x_form                  {border:3px solid silver;z-index:10;position:absolute;background-color:#F5F5F5;padding-top:10px;top:32px;}
+#form                           {width:350px;}
+#x_form                         {right:0;width:300px;}
 #current_filters                {margin-left:100px;padding-top:8px;position:absolute;width:600px;}
 #current_filters a              {color:#000;}
 #filters.expanded #expander,#x_filters.expanded #x_expander   

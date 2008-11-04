@@ -28,16 +28,12 @@ module Admin::FormDatasHelper
     DATABASE_MAILER_COLUMNS.keys
   end
   
-  def export_columns
-    DATABASE_MAILER_COLUMNS.keys + [:url]
-  end
-  
   def date_format(timestamp)
     timestamp && timestamp.to_date.to_s(:rfc822)
   end
   
   def filters_present(&block)
-    if (DATABASE_MAILER_COLUMNS.keys + [:url]).any? { |k| !list_params[k.to_sym].blank? }
+    if (DATABASE_MAILER_COLUMNS.keys + [:url]).any? { |k| !list_params[k].blank?}
       yield
     end
   end
@@ -45,9 +41,14 @@ module Admin::FormDatasHelper
   def current_filters
     all_filters = DATABASE_MAILER_COLUMNS.keys + [:url]
     all_filters.map do |k|
-      k unless list_params[k.to_sym].blank?
+      k unless list_params[k].blank?
     end.compact.join(", ")
   end
+  
+  def export_columns
+    Admin::FormDatasController::EXPORT_COLUMNS
+  end
+  
   protected
   
   def currently_sorting_by?(attribute)
