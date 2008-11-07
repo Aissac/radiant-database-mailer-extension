@@ -1,3 +1,5 @@
+require 'fastercsv'
+
 class FormData < ActiveRecord::Base
 
   SORT_COLUMNS = DATABASE_MAILER_COLUMNS.keys.map(&:to_s) + ['created_at', 'url', 'exported']
@@ -24,7 +26,11 @@ class FormData < ActiveRecord::Base
       paginate(options)
   end
   
-  def self.find_for_export(params, export_all=false)
+  def self.find_all_group_by_url
+     find(:all, :group => 'url')
+  end
+  
+  def self.find_for_export(params, export_all)
     options = {}
     if SORT_COLUMNS.include?(params[:sort_by]) && %w(asc desc).include?(params[:sort_order])
       options[:order] = "#{params[:sort_by]} #{params[:sort_order]}"
@@ -35,9 +41,28 @@ class FormData < ActiveRecord::Base
     params.reject { |k, v| !FILTER_COLUMNS.include?(k) }.
       inject(initial) { |scope, pair| pair[1].blank? ? scope : scope.send(:"by_#{pair[0]}", pair[1]) }.find(:all, :order => options[:order])
   end
-
-  def self.find_all_group_by_url
-     find(:all, :group => 'url')
+  
+  def self.export(params, selected_export_columns, exported_at, export_all=false)
+    @items = find_for_export(params, export_all)
+    
+    FasterCSV.generate do |csv|
+      csv << selected_export_columns.map{|k| k.capitalize}
+      @items.each do |ei|
+        csv << selected_export_columns.map do |k|
+          formatting_for_csv(ei.send(k))
+        end
+        ei.exported = exported_at.to_s(:db)
+        ei.save
+      end
+    end
+  end
+  
+  def self.formatting_for_csv(item)
+    if Time === item
+      item.to_s(:db)
+    else
+      item.to_s.gsub(/([^\n]\n)(?=[^\n])/, ' ')
+    end
   end
 
   def initialize(params={})
