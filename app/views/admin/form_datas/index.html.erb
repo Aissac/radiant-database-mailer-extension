@@ -1,21 +1,68 @@
 <% include_stylesheet 'admin/database_mailer'%>
+<% include_javascript 'admin/database_mailer'%>
 
-<% form_tag({}, {:class => 'noclass', :method => :get}) do %>
-  <%= hidden_field_tag(:reset, 1) %> 
-  <table class="search">
-    <tr class="grey_bg"><td>Search:</td></tr>
-    <tr>
-      <td>
-        <label for="url">URL:</label>
-        <%= select_tag("url", '<option value="">- All -</option>'+options_from_collection_for_select(@urls, "url", "url", list_params[:url])) %> 
+<div id="filtering">
+  <div id="filters">
+    <a id="expander" href="javascript:;">See filters</a>
+      <div id="current_filters">
+    <% filters_present do %>
+      Applied filters: <%= current_filters %>
+      <%= link_to("Reset", :reset => 1) %>
+    <% end -%>
+      </div>
+  </div>
+  <div id="form" style="display:none;">
+    <% form_tag({}, {:method => :get}) do %>
+      <%= hidden_field_tag(:reset, 1) %> 
+      <table class="search">
+        <tr>
+          <th><label for="url">URL:</label></th>
+          <td colspan="2"><%= select_tag("url", '<option value="">- All -</option>'+options_from_collection_for_select(@urls, "url", "url", list_params[:url])) %> </td>
+        </tr>
         <% each_data_column do |k| %>
-          <label for="<%=k %>"><%= k.to_s.titleize %>:</label>
-          <%= text_field_tag(k, list_params[k]) %>
+          <tr>
+            <th><label for="<%=k %>"><%= k.to_s.titleize %>:</label></th>
+            <td colspan="2"><%= text_field_tag(k, list_params[k]) %></td>
+          </tr>
         <% end %>
-        <%= filter_actions_tag %>
-      </td>
-    </tr>
-  </table>
+        <tr>
+          <td>&nbsp;</td>
+          <td><%= filter_actions_tag %></td>
+          <td><a href="javascript:close();">Close</a></td>
+        </tr>
+      </table>
+    <% end -%>
+  </div>
+  <div id="x_filters">
+    <a id="x_expander" href="javascript:;">See export options</a>
+  </div>
+  <div id="x_form" style="display:none;">
+    <% form_tag(formatted_form_datas_path(:format => "csv"), {:method => :get}) do %>
+    <%= list_params.map {|k,v| hidden_field_tag(k, v) }.join %>
+      <table class="export">
+        <tr><td colspan='2'>Choose the columns you want to export:</td></tr>
+        <% export_columns.each do |ec| %>
+        <tr>
+          <th><%= check_box_tag "export_#{ec}", ec, true %></th>
+          <td><label for="export_<%= ec %>"><%= ec.capitalize %></label></td>
+        </tr>
+        <% end %>
+        <tr>
+          <th><%= check_box_tag "include_all", "yes" %></th>
+          <td><label for="include_all">Include allready exported</label></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td>
+            <%= submit_tag("Export") %>
+            <a href="javascript:closeX();">Close</a>
+          </td>
+        </tr>
+      </table>
+    <% end -%>
+  </div>
+</div>
+<div id="results">
   <table class="results">
     <thead>
       <tr class="grey_bg">
@@ -30,6 +77,7 @@
         <% each_data_column do |k| %>
         <th><%= sortable_column_head("#{k.to_s.titleize}", k) %></th>
         <% end -%>
+        <th class="url"><%= sortable_column_head("Exported", :exported) %></th>
       </tr>
     </thead>
     <tbody>
@@ -38,6 +86,7 @@
         <td><%= date_format(si.created_at) %></td>
         <td><%= si.url %></td>
           <%= data_columns.map {|k| "<td>#{si.send(k)}</td>"} %>
+        <td><%= si.exported ? date_format(si.exported) : 'no' %></td>
         </tr>
         <% end -%>
         <% if @saved_items.empty? %>
@@ -50,4 +99,4 @@
       </tr>
     </tfoot>
   </table>
-<% end -%>
+  </div>

@@ -3,6 +3,7 @@ class CreateFormDatas < ActiveRecord::Migration
     create_table :form_datas do |t|
       t.column :url, :string
       t.column :blob, :text
+      t.column :exported, :datetime
       t.timestamps
     end
     

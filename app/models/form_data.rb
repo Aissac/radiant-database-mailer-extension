@@ -1,4 +1,9 @@
+require 'fastercsv'
+
 class FormData < ActiveRecord::Base
+
+  SORT_COLUMNS = DATABASE_MAILER_COLUMNS.keys.map(&:to_s) + ['created_at', 'url', 'exported']
+  FILTER_COLUMNS = DATABASE_MAILER_COLUMNS.keys + [:url]
 
   DATABASE_MAILER_COLUMNS.each_key do | col |
     FormData.named_scope :"by_#{col}", lambda { |item|
@@ -6,8 +11,7 @@ class FormData < ActiveRecord::Base
     }
   end
   named_scope :by_url, lambda{ |item| {:conditions => ["url = ?", item]}}
-  
-  SORT_COLUMNS = DATABASE_MAILER_COLUMNS.keys.map(&:to_s) + ['created_at', 'url']
+  named_scope :not_exported, :conditions => {:exported => nil}
 
   def self.form_paginate(params)
     options = {
@@ -17,13 +21,48 @@ class FormData < ActiveRecord::Base
     if SORT_COLUMNS.include?(params[:sort_by]) && %w(asc desc).include?(params[:sort_order])
       options[:order] = "#{params[:sort_by]} #{params[:sort_order]}"
     end
-    params.reject { |k, v| [:page, :sort_by, :sort_order].include?(k) }.
+    params.reject { |k, v| !FILTER_COLUMNS.include?(k) }.
       inject(FormData) { |scope, pair| pair[1].blank? ? scope : scope.send(:"by_#{pair[0]}", pair[1]) }.
       paginate(options)
   end
-
+  
   def self.find_all_group_by_url
      find(:all, :group => 'url')
+  end
+  
+  def self.find_for_export(params, export_all)
+    options = {}
+    if SORT_COLUMNS.include?(params[:sort_by]) && %w(asc desc).include?(params[:sort_order])
+      options[:order] = "#{params[:sort_by]} #{params[:sort_order]}"
+    end
+    
+    initial = export_all ? FormData : FormData.not_exported
+    
+    params.reject { |k, v| !FILTER_COLUMNS.include?(k) }.
+      inject(initial) { |scope, pair| pair[1].blank? ? scope : scope.send(:"by_#{pair[0]}", pair[1]) }.find(:all, :order => options[:order])
+  end
+  
+  def self.export(params, selected_export_columns, exported_at, export_all=false)
+    @items = find_for_export(params, export_all)
+    
+    FasterCSV.generate do |csv|
+      csv << selected_export_columns.map{|k| k.capitalize}
+      @items.each do |ei|
+        csv << selected_export_columns.map do |k|
+          formatting_for_csv(ei.send(k))
+        end
+        ei.exported = exported_at.to_s(:db)
+        ei.save
+      end
+    end
+  end
+  
+  def self.formatting_for_csv(item)
+    if Time === item
+      item.to_s(:db)
+    else
+      item.to_s.gsub(/([^\n]\n)(?=[^\n])/, ' ')
+    end
   end
 
   def initialize(params={})

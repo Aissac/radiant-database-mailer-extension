@@ -32,7 +32,7 @@ describe Admin::FormDatasController do
     end
   
     it "should parse list_params" do
-      controller.should_receive(:filter_by_params).with(DATABASE_MAILER_COLUMNS.keys + [:url])
+      controller.should_receive(:filter_by_params).with(FormData::FILTER_COLUMNS)
       do_get
     end
   
@@ -50,6 +50,54 @@ describe Admin::FormDatasController do
     it "should assign the found urls for the view" do
       do_get
       assigns[:urls].should == @urls
+    end
+  end
+
+  describe 'handling GET index.csv' do
+    before do
+      login_as :developer
+
+      @list_params = mock("list_params")
+      controller.stub!(:list_params).and_return(@list_params)
+      controller.stub!(:filter_by_params)
+      
+      t = Time.now
+      @time = mock("time", :to_s => 'time', :to_f => t.to_f, :to_i => t.to_i, :strftime => 'time')
+      Time.stub!(:now).and_return(@time)
+
+      FormData.stub!(:export).and_return('csv')
+      controller.stub!(:send_data)
+          
+    end
+    
+    def do_get(options={})
+      get :index, options.merge(:format => 'csv')
+    end
+    
+    it "should be succesful" do
+      do_get
+      response.should be_success
+    end
+    
+    it "parses list_params" do
+      controller.should_receive(:filter_by_params).with(FormData::FILTER_COLUMNS)
+      do_get
+    end
+    
+    it "passes the selected_export_columns" do
+      FormData.should_receive(:export).with(@list_params, %w(name url), @time, false).and_return('csv')
+      do_get({:export_name => "name", :export_url => "url"})
+    end
+    
+    it "passes the include_all columns" do
+      FormData.should_receive(:export).with(@list_params, [], @time, true).and_return('csv')
+      do_get({:include_all => "yes"})
+    end
+    
+    it "sends data as csv string" do
+      FormData.should_receive(:export).and_return('csv_string')
+      controller.should_receive(:send_data).with("csv_string", {:type=>"text/csv", :filename=>"export_#{@time.to_s}.csv", :disposition=>"attachment"})
+      do_get
     end
     
   end

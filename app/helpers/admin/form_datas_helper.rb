@@ -11,7 +11,7 @@ module Admin::FormDatasHelper
   end
   
   def filter_actions_tag
-    submit_tag("Filtrare") + content_tag('span', ' | ' + reset_filters_tag)
+    submit_tag("Filter") + content_tag('span', ' | ' + reset_filters_tag)
   end
   
   def reset_filters_tag
@@ -30,6 +30,23 @@ module Admin::FormDatasHelper
   
   def date_format(timestamp)
     timestamp && timestamp.to_date.to_s(:rfc822)
+  end
+  
+  def filters_present(&block)
+    if (DATABASE_MAILER_COLUMNS.keys + [:url]).any? { |k| !list_params[k].blank?}
+      yield
+    end
+  end
+  
+  def current_filters
+    all_filters = DATABASE_MAILER_COLUMNS.keys + [:url]
+    all_filters.map do |k|
+      k unless list_params[k].blank?
+    end.compact.join(", ")
+  end
+  
+  def export_columns
+    Admin::FormDatasController::EXPORT_COLUMNS
   end
   
   protected
