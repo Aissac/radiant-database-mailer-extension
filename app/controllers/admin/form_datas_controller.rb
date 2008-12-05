@@ -3,7 +3,7 @@ class Admin::FormDatasController < ApplicationController
   require 'fastercsv'
 
   LIST_PARAMS_BASE = [:page, :sort_by, :sort_order]
-  EXPORT_COLUMNS = FormData::SORT_COLUMNS.sort - ["exported"]
+  EXPORT_COLUMNS = FormData::SORT_COLUMNS.sort - ["exported"] + ["blob"]
   def index
     @urls = FormData.find_all_group_by_url
     filter_by_params(FormData::FILTER_COLUMNS)

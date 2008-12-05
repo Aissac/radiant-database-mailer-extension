@@ -61,7 +61,7 @@ class FormData < ActiveRecord::Base
     if Time === item
       item.to_s(:db)
     else
-      item.to_s.gsub(/([^\n]\n)(?=[^\n])/, ' ')
+      item.to_s.gsub(/\s/, ' ')
     end
   end
 
