@@ -37,7 +37,7 @@
     <a id="x_expander" href="javascript:;">See export options</a>
   </div>
   <div id="x_form" style="display:none;">
-    <% form_tag(formatted_form_datas_path(:format => "csv"), {:method => :get}) do %>
+    <% form_tag(formatted_form_datas_path(:format => "xls"), {:method => :get}) do %>
     <%= list_params.map {|k,v| hidden_field_tag(k, v) }.join %>
       <table class="export">
         <tr><td colspan='2'>Choose the columns you want to export:</td></tr>

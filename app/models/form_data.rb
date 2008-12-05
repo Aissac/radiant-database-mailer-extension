@@ -1,4 +1,5 @@
 require 'fastercsv'
+require 'spreadsheet'
 
 class FormData < ActiveRecord::Base
 
@@ -42,7 +43,7 @@ class FormData < ActiveRecord::Base
       inject(initial) { |scope, pair| pair[1].blank? ? scope : scope.send(:"by_#{pair[0]}", pair[1]) }.find(:all, :order => options[:order])
   end
   
-  def self.export(params, selected_export_columns, exported_at, export_all=false)
+  def self.export_csv(params, selected_export_columns, exported_at, export_all=false)
     @items = find_for_export(params, export_all)
     
     FasterCSV.generate do |csv|
@@ -55,6 +56,22 @@ class FormData < ActiveRecord::Base
         ei.save
       end
     end
+  end
+  
+  def self.export_xls(params, selected_export_columns, exported_at, export_all=false)
+    items = find_for_export(params, export_all)
+    book = Spreadsheet::Workbook.new
+    sheet = book.create_worksheet :name => 'Form Data'
+    
+    sheet.row(0).replace(selected_export_columns.map{|k| k.capitalize})
+    
+    items.each_with_index do |item, i|
+      sheet.row(i+1).replace(selected_export_columns.map {|k| item.send(k)})
+    end
+    
+    tmp_file = Tempfile.new("form_data")
+    book.write tmp_file
+    tmp_file.path
   end
   
   def self.formatting_for_csv(item)

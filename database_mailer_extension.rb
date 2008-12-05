@@ -20,6 +20,8 @@ class DatabaseMailerExtension < Radiant::Extension
     end
     WillPaginate.enable_named_scope
     admin.tabs.add "Database Mailer", "/admin/form_datas", :after => "Layouts", :visibility => [:all]
+    
+    Mime::Type.register "application/vnd.ms-excel", :xls
   end
   
   def deactivate

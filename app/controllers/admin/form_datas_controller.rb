@@ -11,14 +11,23 @@ class Admin::FormDatasController < ApplicationController
       format.html {
         @saved_items = FormData.form_paginate(list_params)
       }
+      
+      exported_at = Time.now
+      selected_export_columns = EXPORT_COLUMNS.reject{|k| params["export_#{k}"].blank?}
+      
       format.csv {
-        exported_at = Time.now
-        selected_export_columns = EXPORT_COLUMNS.reject{|k| params["export_#{k}"].blank?}
-        csv_string = FormData.export(list_params, selected_export_columns, exported_at, !params[:include_all].blank?)
+        csv_string = FormData.export_csv(list_params, selected_export_columns, exported_at, !params[:include_all].blank?)
         send_data csv_string, 
          :type => "text/csv", 
          :filename => "export_#{exported_at.strftime("%Y-%m-%d_%H-%M")}.csv", 
          :disposition => 'attachment'
+       }
+       format.xls {
+         xls_path = FormData.export_xls(list_params, selected_export_columns, exported_at, !params[:include_all].blank?)
+         send_file xls_path,
+          :type => "application/vnd.ms-excel", 
+          :filename => "form_data_#{exported_at.strftime("%Y-%m-%d_%H-%M")}.xls", 
+          :disposition => 'attachment'
        }
      end
   end
