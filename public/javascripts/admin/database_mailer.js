@@ -6,7 +6,8 @@ document.observe("dom:loaded", function () {
     } else {
       showForm()
     }
-   });
+  });
+  center('blob-popup');
 });
 
 function hideForm() {

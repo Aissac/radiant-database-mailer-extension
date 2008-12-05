@@ -37,3 +37,6 @@ tr.grey_bg td, tr.grey_bg th    {padding:2px 4px;margin:10px 0 0 0;text-align:le
 #filters.expanded #expander,#x_filters.expanded #x_expander   
                                 {border:3px solid silver;border-bottom:none;text-decoration:none;background-color:#F5F5F5;}
 #results                        {margin-top:40px;}
+
+#blob-contents-wrap             {border: 1px solid silver;height: 300px;width:500px;overflow: auto;margin-left: -15px;margin-right: -15px;padding: 3px;}
+#blob-contents                  {margin-top:0;}
