@@ -67,6 +67,8 @@ class FormData < ActiveRecord::Base
     
     items.each_with_index do |item, i|
       sheet.row(i+1).replace(selected_export_columns.map {|k| item.send(k)})
+      item.exported = exported_at.to_s(:db)
+      item.save
     end
     
     tmp_file = Tempfile.new("form_data")
