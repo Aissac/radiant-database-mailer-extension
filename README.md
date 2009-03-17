@@ -9,11 +9,11 @@ A [Radiant][rd] Extension by [Aissac][ai] that adds database persistence to emai
 Features
 ---
 
-* Record sent forms to the database;
-* Skip saving certain forms;
-* Add fields to be saved without loosing data;
-* Possibility to export the saved data in xls or csv format;
-* Possibility to export only the desired, filtered and sorted fields;
+* Save posted form fields and entire mail message to the database
+* Configurable save-to-database for mailer forms
+* Add fields to be saved without loosing data
+* Admin interface to browse saved records
+* Export data to CSV and XLS
 
 Installation
 ---
@@ -22,11 +22,13 @@ Radiant Database Mailer Extension has two dependecies, the Radiant Mailer Extens
 
 Install the `mailer` extension:
 
-    git submodule add git://github.com/radiant/radiant-mailer-extension.git vendor/extensions/mailer
+    git submodule add git://github.com/radiant/radiant-mailer-extension.git\
+      vendor/extensions/mailer
 
 and the `will_paginate` gem/plugin:   
 
-    git submodule add git://github.com/mislav/will_paginate.git vendor/plugins/will_paginate
+    git submodule add git://github.com/mislav/will_paginate.git\
+      vendor/plugins/will_paginate
     
 or
 
@@ -36,7 +38,8 @@ Next edit `config/environment.rb` and add desired fields to be recorded:
 
     DATABASE_MAILER_COLUMNS = {
       :name => :string,
-      :message => :text
+      :message => :text,
+      :email => :string
     }
 
 Migrate and update the extension:
@@ -74,17 +77,19 @@ Create your Mailer pages and make sure to use the same field names:
       <r:mailer:hidden name="subject" value="Email from my Radiant site!" /> <br/>
       Name:<br/>
       <r:mailer:text name="name" /> <br/>
+      Email:<br/>
+      <r:mailer:text name="email" /> <br/>
       
       Message:<br/>
       <r:mailer:textarea name="message" /> <br/>
       <input type="submit" value="Send" />
     </r:mailer:form>
 
-TODO
----
-
 Contributors
 ---
+
+* Cristi Duma
+* Istvan Hoka
 
 [rd]: http://radiantcms.org/
 [ai]: http://www.aissac.ro/
