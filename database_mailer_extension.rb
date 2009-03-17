@@ -4,7 +4,7 @@ require_dependency 'application'
 class DatabaseMailerExtension < Radiant::Extension
   version "1.0"
   description "Save fields from mailer forms to the database."
-  url "http://github.com/ihoka/radiant-database-mailer-extension"
+  url "http://blog.aissac.ro/radiant/database-mailer-extension/"
   
   define_routes do |map|
     # map.connect 'admin/database_mailer/:action', :controller => 'admin/form_datas'
@@ -12,7 +12,6 @@ class DatabaseMailerExtension < Radiant::Extension
   end
   
   def activate
-    require 'will_paginate'
     throw "MailerExtension must be loaded before DatabaseMailerExtension" unless defined?(MailerExtension)
     MailController.class_eval do
       include DatabaseMailerProcessing
