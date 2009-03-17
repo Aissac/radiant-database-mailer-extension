@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe MailController do
-  scenario :users, :mailer
+  dataset :users, :mailers
   
   before do
     login_as :developer
@@ -24,12 +24,12 @@ describe MailController do
   end
   
   it "passes the page url to the new form data" do
-    FormData.should_receive(:create).with("url" => "/contact/").and_return(@form_data)
+    FormData.should_receive(:create).with("url" => "/contact/", "blob" => "").and_return(@form_data)
     do_post
   end
   
   it "passes mailer params to the new for data" do
-    FormData.should_receive(:create).with("name" => "piki", "url" => "/contact/").and_return(@form_data)
+    FormData.should_receive(:create).with("name" => "piki", "url" => "/contact/", "blob" => "").and_return(@form_data)
     do_post(:mailer => {"name" => 'piki'})
   end
   

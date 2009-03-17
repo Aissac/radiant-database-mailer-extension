@@ -1,13 +1,15 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Admin::FormDatasController do
-  scenario :users
+  dataset :users
+  
+  before :each do
+    login_as :developer
+  end
   
   describe  'handling GET index' do
   
     before do
-      login_as :developer
-      
       @form_datas = (1..10).map {|i| mock_model(FormData) }
       @urls = (1..4).map {|i| mock_model(FormData)}
       
@@ -55,8 +57,6 @@ describe Admin::FormDatasController do
 
   describe 'handling GET index.csv' do
     before do
-      login_as :developer
-
       @list_params = mock("list_params")
       controller.stub!(:list_params).and_return(@list_params)
       controller.stub!(:filter_by_params)
@@ -65,16 +65,15 @@ describe Admin::FormDatasController do
       @time = mock("time", :to_s => 'time', :to_f => t.to_f, :to_i => t.to_i, :strftime => 'time')
       Time.stub!(:now).and_return(@time)
 
-      FormData.stub!(:export).and_return('csv')
-      controller.stub!(:send_data)
-          
+      FormData.stub!(:export_csv).and_return('csv')
+      controller.stub!(:send_data)          
     end
     
     def do_get(options={})
       get :index, options.merge(:format => 'csv')
     end
     
-    it "should be succesful" do
+    it "is succesful succesful" do
       do_get
       response.should be_success
     end
@@ -85,18 +84,63 @@ describe Admin::FormDatasController do
     end
     
     it "passes the selected_export_columns" do
-      FormData.should_receive(:export).with(@list_params, %w(name url), @time, false).and_return('csv')
+      FormData.should_receive(:export_csv).with(@list_params, %w(name url), @time, false).and_return('csv')
       do_get({:export_name => "name", :export_url => "url"})
     end
     
     it "passes the include_all columns" do
-      FormData.should_receive(:export).with(@list_params, [], @time, true).and_return('csv')
+      FormData.should_receive(:export_csv).with(@list_params, [], @time, true).and_return('csv')
       do_get({:include_all => "yes"})
     end
     
     it "sends data as csv string" do
-      FormData.should_receive(:export).and_return('csv_string')
+      FormData.should_receive(:export_csv).and_return('csv_string')
       controller.should_receive(:send_data).with("csv_string", {:type=>"text/csv", :filename=>"export_#{@time.to_s}.csv", :disposition=>"attachment"})
+      do_get
+    end
+  end
+  
+  describe "handling GET index.xls" do
+    before do
+      @list_params = mock("list_params")
+      controller.stub!(:list_params).and_return(@list_params)
+      controller.stub!(:filter_by_params)
+      
+      t = Time.now
+      @time = mock("time", :to_s => 'time', :to_f => t.to_f, :to_i => t.to_i, :strftime => 'time')
+      Time.stub!(:now).and_return(@time)
+
+      FormData.stub!(:export_xls).and_return('xls')
+      controller.stub!(:send_file)
+    end
+    
+    def do_get(options={})
+      get :index, options.merge(:format => 'xls')
+    end
+    
+    it "is succesful" do
+      do_get
+      response.should be_success
+    end
+    
+    it "parses list_params" do
+      controller.should_receive(:filter_by_params).with(FormData::FILTER_COLUMNS)
+      do_get
+    end
+    
+    it "passes the selected_export_columns" do
+      FormData.should_receive(:export_xls).with(@list_params, %w(name url), @time, false).and_return('xls')
+      do_get({:export_name => "name", :export_url => "url"})
+    end
+    
+    it "passes the include_all columns" do
+      FormData.should_receive(:export_xls).with(@list_params, [], @time, true).and_return('xls')
+      do_get({:include_all => "yes"})
+    end
+    
+    it "sends data as csv string" do
+      FormData.should_receive(:export_xls).and_return('xls_file')
+      controller.should_receive(:send_file).with("xls_file", {:type=>"application/vnd.ms-excel", :filename=>"form_data_#{@time.to_s}.xls", :disposition=>"attachment"})
       do_get
     end
     

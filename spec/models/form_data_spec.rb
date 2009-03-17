@@ -82,11 +82,11 @@ describe FormData do
     end
   end
   
-  describe "handling #export" do
+  describe "handling #export_csv" do
     before do
-      @piki = mock_model(FormData, :name => "Piki", :message => "Vad ceva?", :url => '/newsletter/', :exported= => nil, :save => true)
-      @cristi = mock_model(FormData,:name => "Cristi", :message => "Nope!", :url => '/contact/', :exported= => nil, :save => true)
-      @form_datas = [@piki, @cristi]
+      @jerry = mock_model(FormData, :name => "Jerry", :message => "Superman", :url => '/newsletter/', :exported= => nil, :save => true)
+      @george = mock_model(FormData,:name => "George", :message => "I'm out, baby!", :url => '/contact/', :exported= => nil, :save => true)
+      @form_datas = [@jerry, @george]
       FormData.stub!(:find_for_export).and_return(@form_datas)
       
       @export_params = mock("export params")
@@ -94,7 +94,7 @@ describe FormData do
     end
     
     def do_export(columns=%w(name message url))
-      FormData.export(@export_params, columns, @time, false)
+      FormData.export_csv(@export_params, columns, @time, false)
     end
     
     it "finds items for export" do
@@ -111,11 +111,41 @@ describe FormData do
     end
     
     it "generates csv for all columns" do
-      do_export.should == "Name,Message,Url\nPiki,Vad ceva?,/newsletter/\nCristi,Nope!,/contact/\n"
+      do_export.should == "Name,Message,Url\nJerry,Superman,/newsletter/\nGeorge,\"I'm out, baby!\",/contact/\n"
     end
     
     it "generates csv for selected columns" do
-      do_export(%w(name url)).should == "Name,Url\nPiki,/newsletter/\nCristi,/contact/\n"
+      do_export(%w(name url)).should == "Name,Url\nJerry,/newsletter/\nGeorge,/contact/\n"
+    end
+  end
+  
+  describe "handling #export_xls" do
+    
+    before do
+      @jerry = mock_model(FormData, :name => "Jerry", :message => "Superman", :url => '/newsletter/', :exported= => nil, :save => true)
+      @george = mock_model(FormData,:name => "George", :message => "I'm out, baby!", :url => '/contact/', :exported= => nil, :save => true)
+      @form_datas = [@jerry, @george]
+      FormData.stub!(:find_for_export).and_return(@form_datas)
+
+      @export_params = mock("export params")
+      @time = Time.now
+    end
+      
+    def do_export(columns=%w(name message url))
+      FormData.export_xls(@export_params, columns, @time, false)
+    end
+    
+    it "finds items for export" do
+      FormData.should_receive(:find_for_export).with(@export_params, false).and_return(@form_datas)
+      do_export
+    end
+    
+    it "marks exported time for each item" do
+      @form_datas.each do |fd|
+        fd.should_receive(:exported=).with(@time.to_s(:db))
+        fd.should_receive(:save).and_return(true)
+      end
+      do_export
     end
   end
 end

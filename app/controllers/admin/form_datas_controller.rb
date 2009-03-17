@@ -5,6 +5,7 @@ class Admin::FormDatasController < ApplicationController
   LIST_PARAMS_BASE = [:page, :sort_by, :sort_order]
   EXPORT_COLUMNS = FormData::SORT_COLUMNS.sort - ["exported"] + ["blob"]
   def index
+    attach_assets
     @urls = FormData.find_all_group_by_url
     filter_by_params(FormData::FILTER_COLUMNS)
     respond_to do |format|
@@ -55,6 +56,11 @@ class Admin::FormDatasController < ApplicationController
       args.each do |key|
         cookies[key] = { :value => list_params[key], :path => "/#{controller_path}" }
       end
+    end
+    
+    def attach_assets
+      include_stylesheet "admin/database_mailer"
+      include_javascript "admin/database_mailer"
     end
 
 end

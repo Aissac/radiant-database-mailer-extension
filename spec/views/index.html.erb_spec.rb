@@ -2,8 +2,6 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe 'form_datas/index.html.erb' do
   before do    
-    assigns[:stylesheets] = []
-    assigns[:javascripts] = []
     @list_params = {:url => "/contact/", :name => "test", :message => "test message", 
                     :email => "test@example.com", :company => "Aissac", :city => "Cluj",
                     :page => 1, :sort_by => "name", :sort_order => "asc"}
@@ -23,6 +21,5 @@ describe 'form_datas/index.html.erb' do
   
   it "renders" do
     do_render
-    # puts "<pre>#{ERB::Util.h(response.body)}</pre>"
   end
 end
