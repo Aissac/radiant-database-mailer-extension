@@ -9,49 +9,49 @@ A [Radiant][rd] Extension by [Aissac][ai] that adds database persistence to emai
 Features
 ---
 
-* Record sent forms to the database
-* Skip saving certain forms
-* Add fields to be saved without loosing data
+* Record sent forms to the database;
+* Skip saving certain forms;
+* Add fields to be saved without loosing data;
+* Possibility to export the saved data in xls or csv format;
+* Possibility to export only the desired, filtered and sorted fields;
 
 Installation
 ---
 
-First you need to install the `mailer` extension:
+Radiant Database Mailer Extension has two dependecies, the Radiant Mailer Extension and `will_paginate` gem/plugin
 
-    cd /path/to/radiant
-    git clone git://github.com/radiant/radiant-mailer-extension.git vendor/extensions/mailer
+Install the `mailer` extension:
+
+    git submodule add git://github.com/radiant/radiant-mailer-extension.git vendor/extensions/mailer
+
+and the `will_paginate` gem/plugin:   
+
+    git submodule add git://github.com/mislav/will_paginate.git vendor/plugins/will_paginate
     
-Edit `config/environment.rb` and add desired fields to be recorded:
+or
+
+    sudo gem install mislav-will_paginate --source http://gems.github.com
+
+Next edit `config/environment.rb` and add desired fields to be recorded:
 
     DATABASE_MAILER_COLUMNS = {
       :name => :string,
-      :message => :text,
-      :email => :string
+      :message => :text
     }
 
-Next, migrate and update the extension:
+Migrate and update the extension:
 
     rake radiant:extensions:database_mailer:migrate
     rake radiant:extensions:database_mailer:update
 
+Configuration
+---
+
 Adding fields to the `DATABASE_MAILER_COLUMNS` hash and re-running `rake radiant:extensions:database_mailer:migrate` nondestructively adds fields to be saved. Fields removed from the hash are not deleted.
 
-Finally, create your Mailer pages and make sure to use the same field names:
-
-    <r:mailer:form>
-      <r:mailer:hidden name="subject" value="Email from my Radiant site!" /> <br/>
-      Name:<br/>
-      
-      <r:mailer:text name="name" /> <br/>
-      Message:<br/>
-      
-      <r:mailer:textarea name="message" /> <br/>
-      <input type="submit" value="Send" />
-    </r:mailer:form>
-    
 Look at the Mailer Extension README for information on how to configure mail delivery.
 
-If you set `save_to_database` to false in the Mailer config, saving to the database is skipped and just mail delivery takes place. Example (in the `mailer` part of the page):
+If you set `save_to_database` to false in the Mailer config, saving to the database is skipped and just mail delivery takes place. Example (in the `mailer` page part):
 
     subject: From the website of Whatever
     from: noreply@example.com
@@ -61,12 +61,30 @@ If you set `save_to_database` to false in the Mailer config, saving to the datab
       - one@one.com
       - two@two.com
 
+If you want to take advantage of the blob field you need to create a `email` page part. The blob field keeps the sent version of the email.
+
 Fields that are not specified by `DATABASE_MAILER_COLUMNS` are silently ignored.
+
+Usage
+---
+
+Create your Mailer pages and make sure to use the same field names:
+
+    <r:mailer:form>
+      <r:mailer:hidden name="subject" value="Email from my Radiant site!" /> <br/>
+      Name:<br/>
+      <r:mailer:text name="name" /> <br/>
+      
+      Message:<br/>
+      <r:mailer:textarea name="message" /> <br/>
+      <input type="submit" value="Send" />
+    </r:mailer:form>
 
 TODO
 ---
 
-* CSV export
+Contributors
+---
 
 [rd]: http://radiantcms.org/
 [ai]: http://www.aissac.ro/
