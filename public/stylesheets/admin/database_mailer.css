@@ -32,6 +32,7 @@ tr.grey_bg td, tr.grey_bg th    {padding:2px 4px;margin:10px 0 0 0;text-align:le
 #form, #x_form                  {border:3px solid silver;z-index:10;position:absolute;background-color:#F5F5F5;padding-top:10px;top:32px;}
 #form                           {width:350px;}
 #x_form                         {right:0;width:300px;}
+table.export td.sep                    {border-top:1px solid #ccc;}
 #current_filters                {margin-left:100px;padding-top:8px;position:absolute;width:600px;}
 #current_filters a              {color:#000;}
 #filters.expanded #expander,#x_filters.expanded #x_expander   
