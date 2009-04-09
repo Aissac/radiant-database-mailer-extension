@@ -23,7 +23,9 @@
           %td= si.url
           = data_columns.map { |k| "<td>#{si.send(k)}</td>" }
           %td= si.exported ? date_format(si.exported) : "no"
-          %td= link_to_function "Show", "$('blob-contents').update('#{escape_javascript(si.blob)}'); $('blob-popup').show();"
+          %td
+            = link_to_function "Show", "$('blob-contents').update('#{escape_javascript(si.blob)}'); $('blob-popup').show();"
+            = link_to 'Delete', form_data_path(si.id), :method => :delete, :confirm => "Really delete record?"
       - if @saved_items.empty?
         %tr
           %td{:colspan => data_columns.size + 2} No Results!

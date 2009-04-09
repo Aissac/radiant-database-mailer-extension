@@ -210,4 +210,37 @@ describe Admin::FormDatasController do
       params[:page].should == '98'
     end
   end
+
+  describe "handling DELETE destroy" do
+    
+    before do
+      @form_data = mock_model(FormData)
+      FormData.stub!(:find).and_return(@form_data)
+      @form_data.stub!(:destroy)
+    end
+    
+    def do_delete
+      delete :destroy, :id => @form_data.id
+    end
+    
+    it "finds the coresponding record" do
+      FormData.should_receive(:find).with(@form_data.id.to_s).and_return(@form_data)
+      do_delete
+    end
+    
+    it "destroys the record" do
+      @form_data.should_receive(:destroy)
+      do_delete
+    end
+    
+    it "assigns flash message" do
+      do_delete
+      flash[:notice].should == "Record deleted!"
+    end
+    
+    it "redirects on success" do
+      do_delete
+      response.should be_redirect
+    end
+  end
 end

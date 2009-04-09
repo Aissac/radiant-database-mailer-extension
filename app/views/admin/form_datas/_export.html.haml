@@ -5,7 +5,7 @@
     = list_params.map {|k,v| hidden_field_tag(k,v)}.join
     %table.export
       %tr
-        %td{:colspan => "2"} Choose the column you want to export:
+        %td{:colspan => "2"} Choose the columns you want to export:
       - export_columns.each do |ec|
         %tr
           %th= check_box_tag "export_#{ec}", ec, true

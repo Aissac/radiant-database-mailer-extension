@@ -16,7 +16,7 @@ describe 'form_datas/index.html.erb' do
   end
   
   def do_render
-    render '/admin/form_datas/index.html.erb'
+    render '/admin/form_datas/index.html.haml'
   end
   
   it "renders" do

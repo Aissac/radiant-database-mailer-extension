@@ -33,6 +33,13 @@ class Admin::FormDatasController < ApplicationController
      end
   end
   
+  def destroy
+    @form_data = FormData.find(params[:id])
+    @form_data.destroy
+    flash[:notice] = "Record deleted!"
+    redirect_to form_datas_path
+  end
+  
   def list_params
     @list_params ||= {}
   end
