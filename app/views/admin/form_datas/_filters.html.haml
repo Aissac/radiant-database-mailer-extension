@@ -1,0 +1,28 @@
+#filters
+  %a#expander{:href => 'javascript:;'} Filter
+  #current_filters
+    - filters_present do
+      Applied filters: 
+      = current_filters
+      = link_to 'Reset', :reset => 1
+#form{:style => "display:none"}
+  - form_tag({}, {:method => :get}) do
+    = hidden_field_tag(:reset => 1)
+    %table.search
+      %tr
+        %th
+          %label{:for => "url"} URL:
+        %td{:colspan => "2"}
+          = select_tag("url", '<option value="">- All -</option>' + options_from_collection_for_select(@urls, "url", "url", list_params[:url]))
+      - each_data_column do |k|
+        %tr
+          %th
+            %label{:for => k} 
+              = k.to_s.capitalize + ":"
+          %td{:colspan => "2"}
+            = text_field_tag k, list_params[k]
+      %tr
+        %th &nbsp;
+        %td= filter_actions_tag
+        %td
+          %a{:href => "javascript:close()"} Close

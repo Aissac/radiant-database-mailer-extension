@@ -1,0 +1,34 @@
+#filtering
+  = render :partial => "filters"
+  = render :partial => "export"
+#results
+  %table.results
+    %thead
+      %tr.grey_bg
+        %th{:colspan => "#{data_columns.size + 4}"}
+          %div
+            = page_entries_info @saved_items
+          = will_paginate @saved_items, :inner_window => 1, :outer_window => 1
+      %tr
+        %th.created_at= sortable_column_head "Created at", :created_at
+        %th.url= sortable_column_head "URL", :url
+        - each_data_column do |k|
+          %th= sortable_column_head k.to_s.capitalize, k
+        %th.url= sortable_column_head "Exported", :exported
+        %th Data
+    %tbody
+      - @saved_items.each do |si|
+        %tr
+          %td= date_format(si.created_at)
+          %td= si.url
+          = data_columns.map { |k| "<td>#{si.send(k)}</td>" }
+          %td= si.exported ? date_format(si.exported) : "no"
+          %td= link_to_function "Show", "$('blob-contents').update('#{escape_javascript(si.blob)}'); $('blob-popup').show();"
+      - if @saved_items.empty?
+        %tr
+          %td{:colspan => data_columns.size + 2} No Results!
+    %tfoot
+      %tr.grey_bg
+        %th{:colspan => "#{data_columns.size + 4}"}
+          = will_paginate @saved_items
+= render :partial => "popups"

@@ -1,0 +1,33 @@
+#x_filters
+  %a#x_expander{:href => "javascript:;"} Export
+#x_form{:style => "display:none"}
+  - form_tag(form_datas_path, {:method => :get}) do
+    = list_params.map {|k,v| hidden_field_tag(k,v)}.join
+    %table.export
+      %tr
+        %td{:colspan => "2"} Choose the column you want to export:
+      - export_columns.each do |ec|
+        %tr
+          %th= check_box_tag "export_#{ec}", ec, true
+          %td
+            %label{:for => "export_#{ec}"}
+              = ec.to_s.capitalize
+      %tr
+        %th= check_box_tag "include_all", "yes"
+        %td
+          %label{:for => "include_all"} Include allready exported
+      %tr
+        %td.sep{:colspan => "2"} Choose the format:
+      %tr
+        %th= radio_button_tag "format", "csv"
+        %td
+          %label{:for => "format_csv"} Comma separated values (CSV)
+      %tr
+        %th= radio_button_tag "format", "xls"
+        %td
+          %label{:for => "format_xls"} Microsoft Excel Sheet (XLS)
+      %tr
+        %th &nbsp;
+        %td
+          = submit_tag "Export"
+          %a{:href => "javascript:closeX()"} Close
