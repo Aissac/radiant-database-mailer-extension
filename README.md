@@ -6,6 +6,8 @@ About
 
 A [Radiant][rd] Extension by [Aissac][ai] that adds database persistence to emailed forms. It works on top of the Radiant [Mailer Extension][ma] and the fields recorded to the database are user defined. The extension adds a tab to the Radiant admin interface allowing you to browse saved records.
 
+Tested on Radiant 0.7.1 and 0.8.
+
 Features
 ---
 
@@ -46,6 +48,14 @@ Migrate and update the extension:
 
     rake radiant:extensions:database_mailer:migrate
     rake radiant:extensions:database_mailer:update
+
+###Note
+
+To get the Radiant 0.7.1 version tag you need to:
+
+    cd vendor/extensions/custom_fields/
+    git checkout v0.7
+
 
 Configuration
 ---
