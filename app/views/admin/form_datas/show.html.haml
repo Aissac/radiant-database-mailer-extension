@@ -1,0 +1,12 @@
+#show
+  .left
+    %table
+      - data_columns.each do |dc|
+        %tr
+          %th= dc.to_s.capitalize
+          %td= @form_data.send(dc)
+  
+    = link_to_function "Show sent e-mail", "$('blob-contents').update('#{escape_javascript(@form_data.blob)}'); $('blob-popup').show();"
+  .right
+    
+= render :partial => "popups"

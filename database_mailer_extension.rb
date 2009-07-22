@@ -1,4 +1,3 @@
-# Uncomment this if you reference any of your controllers in activate
 require_dependency 'application_controller'
 
 class DatabaseMailerExtension < Radiant::Extension
@@ -7,7 +6,6 @@ class DatabaseMailerExtension < Radiant::Extension
   url "http://blog.aissac.ro/radiant/database-mailer-extension/"
   
   define_routes do |map|
-    # map.connect 'admin/database_mailer/:action', :controller => 'admin/form_datas'
     map.resources :form_datas, :path_prefix => '/admin', :controller => 'admin/form_datas'
   end
   
@@ -17,7 +15,6 @@ class DatabaseMailerExtension < Radiant::Extension
       include DatabaseMailerProcessing
       alias_method_chain :process_mail, :database
     end
-    WillPaginate.enable_named_scope
     admin.tabs.add "Database Mailer", "/admin/form_datas", :after => "Layouts", :visibility => [:all]
     
     Mime::Type.register "application/vnd.ms-excel", :xls

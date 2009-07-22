@@ -24,7 +24,7 @@
           = data_columns.map { |k| "<td>#{si.send(k)}</td>" }
           %td= si.exported ? date_format(si.exported) : "no"
           %td
-            = link_to_function "Show", "$('blob-contents').update('#{escape_javascript(si.blob)}'); $('blob-popup').show();"
+            = link_to "Show", form_data_path(si)
             = link_to 'Delete', form_data_path(si.id), :method => :delete, :confirm => "Really delete record?"
       - if @saved_items.empty?
         %tr
@@ -33,4 +33,3 @@
       %tr.grey_bg
         %th{:colspan => "#{data_columns.size + 4}"}
           = will_paginate @saved_items
-= render :partial => "popups"

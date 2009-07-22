@@ -1,11 +1,11 @@
 class Admin::FormDatasController < ApplicationController
 
   require 'fastercsv'
-
+  before_filter :attach_assets
   LIST_PARAMS_BASE = [:page, :sort_by, :sort_order]
   EXPORT_COLUMNS = FormData::SORT_COLUMNS.sort - ["exported"] + ["blob"]
   def index
-    attach_assets
+
     @urls = FormData.find_all_group_by_url
     filter_by_params(FormData::FILTER_COLUMNS)
     respond_to do |format|
@@ -31,6 +31,10 @@ class Admin::FormDatasController < ApplicationController
           :disposition => 'attachment'
        }
      end
+  end
+  
+  def show
+    @form_data = FormData.find(params[:id])
   end
   
   def destroy
@@ -66,7 +70,7 @@ class Admin::FormDatasController < ApplicationController
     end
     
     def attach_assets
-      include_stylesheet "admin/database_mailer"
+      include_stylesheet "database_mailer"
       include_javascript "admin/database_mailer"
     end
 

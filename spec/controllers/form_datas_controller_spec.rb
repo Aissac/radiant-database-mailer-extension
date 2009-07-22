@@ -57,6 +57,7 @@ describe Admin::FormDatasController do
 
   describe 'handling GET index.csv' do
     before do
+      
       @list_params = mock("list_params")
       controller.stub!(:list_params).and_return(@list_params)
       controller.stub!(:filter_by_params)
@@ -73,7 +74,7 @@ describe Admin::FormDatasController do
       get :index, options.merge(:format => 'csv')
     end
     
-    it "is succesful succesful" do
+    it "is succesful" do
       do_get
       response.should be_success
     end
