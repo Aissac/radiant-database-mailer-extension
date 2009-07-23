@@ -3,10 +3,20 @@
   .left
     %h3 Details
     %table.result
+      %tr
+        %th Created_at
+        %td= date_format(@form_data.created_at)
+      %tr
+        %th URL:
+        %td= @form_data.url
+
       - data_columns.each do |dc|
         %tr
           %th= dc.to_s.capitalize
           %td= @form_data.send(dc)
+      %tr
+        %th Exported
+        %td= @form_data.exported? ? date_format(@form_data.exported) : "no"
     = link_to_function "Show sent e-mail", "$('blob-contents').update('#{escape_javascript(@form_data.blob)}'); $('blob-popup').show();"
   .right
     %h3 Attachments
@@ -26,4 +36,5 @@
                 = image_tag att.attachment.url(:thumb)
             - else
               %td &nbsp;
+= link_to "Back", admin_form_datas_path
 = render :partial => "popups"

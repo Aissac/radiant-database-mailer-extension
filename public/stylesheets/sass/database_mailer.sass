@@ -161,7 +161,7 @@ table.export td.sep
 
 .popup
   position: absolute
-  top: 200px
+  top: 100px
   left: 370.5px
 
 #blob-contents-wrap
@@ -177,8 +177,11 @@ table.export td.sep
   margin-top: 0
 
 #show
+  :margin-bottom 25px
   h3
     :padding-left 50px
+  a
+    :color #000
   table
     th
       :text-align right
@@ -189,17 +192,13 @@ table.export td.sep
   table.attachments
     th
       :text-align center
-  a
-    :color #000
   .left
     :float left
-    :width 33%
-    :padding-right 20px
-    a
-      :float right
-      :margin-right 30px
+    :width 45%
+    :padding-left 20px
   .right
-    :float left
+    :float right
+    :width 45%
     ul
       li
         :list-style none

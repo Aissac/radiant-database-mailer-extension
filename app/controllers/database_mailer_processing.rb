@@ -8,11 +8,10 @@ module DatabaseMailerProcessing
       fd = FormData.create(mail.data.merge(:url => mail.page.url, :blob => plain_body))    
       mail.data.each do |k, v|
         if v.class.to_s == "Tempfile"
-          fd.form_data_assets.create(:field_name => k, :attachment => v)
+          FormDataAsset.create(:form_data_id => fd.id, :field_name => k, :attachment => v)
         end
       end
     end
     process_mail_without_database(mail, config)
   end
-
 end
