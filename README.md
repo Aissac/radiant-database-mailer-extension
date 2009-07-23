@@ -12,6 +12,7 @@ Features
 ---
 
 * Save posted form fields and entire mail message to the database
+* Save e-mail attachments using paperclip
 * Configurable save-to-database for mailer forms
 * Add fields to be saved without loosing data
 * Admin interface to browse saved records
@@ -20,14 +21,21 @@ Features
 Installation
 ---
 
-Radiant Database Mailer Extension has two dependecies, the Radiant Mailer Extension and `will_paginate` gem/plugin
+Radiant Database Mailer Extension has three dependecies, the Radiant Mailer Extension, the `will_paginate` gem/plugin and the `paperclip` gem/plugin
 
 Install the `mailer` extension:
 
     git submodule add git://github.com/radiant/radiant-mailer-extension.git\
       vendor/extensions/mailer
 
-and the `will_paginate` gem/plugin:   
+#### Note
+
+At the time being you will need Aissac's version of the [Radiant Mailer Extension][arme], as it incorporates sending e-mails with attachments
+
+    git submodule add git://github.com/Aissac/radiant-mailer-extension.git\
+      vendor/extensions/mailer
+
+the `will_paginate` gem/plugin:   
 
     git submodule add git://github.com/mislav/will_paginate.git\
       vendor/plugins/will_paginate
@@ -35,6 +43,15 @@ and the `will_paginate` gem/plugin:
 or
 
     sudo gem install mislav-will_paginate --source http://gems.github.com
+
+and the `paperclip` gem/plugin 
+
+    git submodule add git://github.com/thoughtbot/paperclip.git \
+      vendor/plugins/will_paginate
+
+or
+
+    sudo gem install thoughtbot-paperclip --source http://gems.github.com
 
 Next edit `config/environment.rb` and add desired fields to be recorded:
 
@@ -74,6 +91,8 @@ If you set `save_to_database` to false in the Mailer config, saving to the datab
       - one@one.com
       - two@two.com
 
+Any attachments that the e-mail might have will be saved on the file system. They can be downloaded from the details page of every record.
+
 If you want to take advantage of the blob field you need to create a `email` page part. The blob field keeps the sent version of the email.
 
 Fields that are not specified by `DATABASE_MAILER_COLUMNS` are silently ignored.
@@ -104,3 +123,4 @@ Contributors
 [rd]: http://radiantcms.org/
 [ai]: http://www.aissac.ro/
 [ma]: http://github.com/radiant/radiant-mailer-extension
+[arme]: http://github.com/Aissac/radiant-mailer-extension
