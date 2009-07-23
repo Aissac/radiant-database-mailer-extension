@@ -6,7 +6,11 @@ class DatabaseMailerExtension < Radiant::Extension
   url "http://blog.aissac.ro/radiant/database-mailer-extension/"
   
   define_routes do |map|
-    map.resources :form_datas, :path_prefix => '/admin', :controller => 'admin/form_datas'
+    map.namespace :admin do |admin|
+      admin.resources :form_datas do |form_data|
+        form_data.resources :form_data_assets
+      end
+    end
   end
   
   def activate

@@ -1,7 +1,7 @@
 #x_filters
   %a#x_expander{:href => "javascript:;"} Export
 #x_form{:style => "display:none"}
-  - form_tag(form_datas_path, {:method => :get}) do
+  - form_tag(admin_form_datas_path, {:method => :get}) do
     = list_params.map {|k,v| hidden_field_tag(k,v)}.join
     %table.export
       %tr

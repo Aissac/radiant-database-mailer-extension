@@ -1,12 +1,23 @@
-#show
+#show.clearfix
+  %h2 Form Data
   .left
-    %table
+    %h3 Details
+    %table.result
       - data_columns.each do |dc|
         %tr
           %th= dc.to_s.capitalize
           %td= @form_data.send(dc)
-  
     = link_to_function "Show sent e-mail", "$('blob-contents').update('#{escape_javascript(@form_data.blob)}'); $('blob-popup').show();"
   .right
-    
+    %h3 Attachments
+    - unless @form_data.form_data_assets.empty?
+      %ul
+        - @form_data.form_data_assets.each do |att|
+          - if att.image?
+            %li
+              = image_tag att.attachment.url(:thumb)
+              = link_to att.attachment_file_name, att.attachment.url(:normal)
+          - else
+            %li
+              = link_to att.attachment_file_name, att.attachment.url
 = render :partial => "popups"

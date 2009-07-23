@@ -24,8 +24,8 @@
           = data_columns.map { |k| "<td>#{si.send(k)}</td>" }
           %td= si.exported ? date_format(si.exported) : "no"
           %td
-            = link_to "Show", form_data_path(si)
-            = link_to 'Delete', form_data_path(si.id), :method => :delete, :confirm => "Really delete record?"
+            = link_to "Show", admin_form_data_path(si)
+            = link_to 'Delete', admin_form_data_path(si.id), :method => :delete, :confirm => "Really delete record?"
       - if @saved_items.empty?
         %tr
           %td{:colspan => data_columns.size + 2} No Results!

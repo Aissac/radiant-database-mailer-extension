@@ -3,6 +3,8 @@ require 'spreadsheet'
 
 class FormData < ActiveRecord::Base
 
+  has_many :form_data_assets
+
   SORT_COLUMNS = DATABASE_MAILER_COLUMNS.keys.map(&:to_s) + ['created_at', 'url', 'exported']
   FILTER_COLUMNS = DATABASE_MAILER_COLUMNS.keys + [:url]
 

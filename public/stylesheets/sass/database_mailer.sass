@@ -1,7 +1,18 @@
+/tools
+.clearfix:after
+  :content "."
+  :display block
+  :height 0
+  :clear both
+  :visibility hidden
+.clearfix
+  :display inline-block
+.clearfix
+  :display block
+
 .search, .export, .results
   width: 100%
-
-
+  
 .search th, .export th
   text-align: right
 
@@ -9,8 +20,8 @@
 .search td, .export td
   padding: 5px 4px
 
-
-tr
+tr.grey_bg
+  :background-color #F5F5F5
 
 .search a, .export a
   font-size: 93%
@@ -20,11 +31,9 @@ tr
     font-size: 93%
     color: #000
 
-
 .search
   select, input[type=text]
     width: 150px
-
 
 .results
   th div
@@ -57,7 +66,6 @@ tr
 
     &:visited
       color: #000
-
 
 .pagination
   text-align: center
@@ -96,7 +104,6 @@ tr
 #filtering
   position: relative
 
-
 #expander
   outline: none
   border: 3px solid #FFF
@@ -105,7 +112,6 @@ tr
   padding: 5px 10px 9px 10px
   color: #000
   position: absolute
-
 
 #x_expander
   outline: none
@@ -117,7 +123,6 @@ tr
   position: absolute
   right: 0
 
-
 #form, #x_form
   border: 3px solid silver
   z-index: 10
@@ -126,19 +131,15 @@ tr
   padding-top: 10px
   top: 32px
 
-
 #form
   width: 350px
-
 
 #x_form
   right: 0
   width: 300px
 
-
 table.export td.sep
   border-top: 1px solid #ccc
-
 
 #current_filters
   margin-left: 100px
@@ -149,23 +150,19 @@ table.export td.sep
   a
     color: #000
 
-
 #filters.expanded #expander, #x_filters.expanded #x_expander
   border: 3px solid silver
   border-bottom: none
   text-decoration: none
   background-color: #F5F5F5
 
-
 #results
   margin-top: 40px
-
 
 .popup
   position: absolute
   top: 200px
   left: 370.5px
-
 
 #blob-contents-wrap
   border: 1px solid silver
@@ -176,19 +173,29 @@ table.export td.sep
   margin-right: -15px
   padding: 3px
 
-
 #blob-contents
   margin-top: 0
 
-
 #show
+  h3
+    :padding-left 50px
   table
     th
-      text-align: right
-      padding: 3px 5px
-
+      :text-align right
+      :padding 3px 5px
+      :vertical-align top
     td
-      padding: 3px 5px
-
+      :padding 3px 5px
   a
-    color: #000
+    :color #000
+  .left
+    :float left
+    :width 33%
+    :padding-right 20px
+    a
+      :float right
+  .right
+    :float left
+    ul
+      li
+        :list-style none

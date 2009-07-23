@@ -41,7 +41,7 @@ class Admin::FormDatasController < ApplicationController
     @form_data = FormData.find(params[:id])
     @form_data.destroy
     flash[:notice] = "Record deleted!"
-    redirect_to form_datas_path
+    redirect_to admin_form_datas_path
   end
   
   def list_params
