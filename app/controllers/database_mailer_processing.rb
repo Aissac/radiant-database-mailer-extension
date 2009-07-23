@@ -5,10 +5,13 @@ module DatabaseMailerProcessing
     plain_body = (page.part( :email ) ? page.render_part( :email ) : page.render_part( :email_plain ))
     
     if config[:save_to_database] || config[:save_to_database].nil?
-      fd = FormData.create(mail.data.merge(:url => mail.page.url, :blob => plain_body)) 
-      fd.form_data_assets.create(:attachment => mail.data["attachment"]) if mail.data["attachment"]
+      fd = FormData.create(mail.data.merge(:url => mail.page.url, :blob => plain_body))    
+      mail.data.each do |k, v|
+        if v.class.to_s == "Tempfile"
+          fd.form_data_assets.create(:field_name => k, :attachment => v)
+        end
+      end
     end
-    
     process_mail_without_database(mail, config)
   end
 

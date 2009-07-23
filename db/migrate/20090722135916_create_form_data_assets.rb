@@ -2,6 +2,7 @@ class CreateFormDataAssets < ActiveRecord::Migration
   def self.up
     create_table :form_data_assets do |t|
       t.references :form_data
+      t.string :field_name
       t.string :attachment_file_name
       t.string :attachment_content_type
       t.integer :attachment_file_size

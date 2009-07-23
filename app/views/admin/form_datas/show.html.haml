@@ -11,13 +11,19 @@
   .right
     %h3 Attachments
     - unless @form_data.form_data_assets.empty?
-      %ul
+      %table.attachments
+        %tr.grey_bg
+          %th Field Name
+          %th Link
+          %th Thumbnail
         - @form_data.form_data_assets.each do |att|
-          - if att.image?
-            %li
-              = image_tag att.attachment.url(:thumb)
-              = link_to att.attachment_file_name, att.attachment.url(:normal)
-          - else
-            %li
+          %tr
+            %td= att.field_name.blank? ? "Field:" : att.field_name.capitalize
+            %td
               = link_to att.attachment_file_name, att.attachment.url
+            - if att.image?
+              %td
+                = image_tag att.attachment.url(:thumb)
+            - else
+              %td &nbsp;
 = render :partial => "popups"

@@ -6,6 +6,7 @@ describe MailController do
   before do
     login_as :developer
     @form_data = mock_model(FormData)
+    @form_data.stub!(:form_data_assets)
     FormData.stub!(:create)
   end
   
@@ -20,6 +21,11 @@ describe MailController do
   
   it "creates a new FormData from mailer params" do
     FormData.should_receive(:create).and_return(@form_data)
+    do_post
+  end
+  
+  it "creates a new FormDataAsset if an attachment is present" do
+    FormDataAsset.should_receive(:create).and_return(@form_data.form_data_assets)
     do_post
   end
   
