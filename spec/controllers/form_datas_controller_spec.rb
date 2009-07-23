@@ -54,6 +54,29 @@ describe Admin::FormDatasController do
       assigns[:urls].should == @urls
     end
   end
+  
+  describe "handling GET show" do
+    before(:each) do
+      @form_data = mock_model(FormData)
+      FormData.stub!(:find).and_return(@form_data)
+    end
+    
+    def do_get
+      get :show, :id => @form_data.id
+    end
+    
+    it "is successful" do
+      do_get
+      response.should be_success
+    end
+    
+    it "finds the corresponding form_data and assigns it to the view" do
+      FormData.should_receive(:find).with(@form_data.id.to_s).and_return(@form_data)
+      do_get
+      assigns[:form_data].should == @form_data
+    end
+    
+  end
 
   describe 'handling GET index.csv' do
     before do
@@ -67,17 +90,25 @@ describe Admin::FormDatasController do
       Time.stub!(:now).and_return(@time)
 
       FormData.stub!(:export_csv).and_return('csv')
-      controller.stub!(:send_data)          
+      controller.stub!(:send_data)
+      
+      @request.accept = "text/csv" #=> request JS
     end
     
     def do_get(options={})
-      get :index, options.merge(:format => 'csv')
+      get :index, options, :format => 'csv'
     end
     
     it "is succesful" do
       do_get
+      response.should be_redirect
+    end
+    
+    it "GET #most_viewed renders #most_viewed.js.rjs template if js requested" do
+      get :index, :format => 'csv'
       response.should be_success
     end
+    
     
     it "parses list_params" do
       controller.should_receive(:filter_by_params).with(FormData::FILTER_COLUMNS)
@@ -162,7 +193,8 @@ describe Admin::FormDatasController do
     end
     
     def set_cookie(key, value)
-      request.cookies[key] = CGI::Cookie.new('name' => key, 'value' => value)
+      # request.cookies[key] = CGI::Cookie.new('name' => key, 'value' => value)
+      request.cookies[key] = value
     end
   
     it "should have default set of params" do
@@ -195,14 +227,14 @@ describe Admin::FormDatasController do
       set_cookie('page', '98')
       do_get(:page => '99')
       filter_by_params
-      response.cookies['page'].should == ['99']
+      response.cookies['page'].should == '99'
     end
     
     it "should reset list_params when params[:reset] == 1" do
       set_cookie('page', '98')
       do_get(:reset => 1)
       filter_by_params
-      response.cookies['page'].should == ["1"]
+      response.cookies['page'].should == "1"
     end
     it "should set params[:page] if loading from cookies (required for will_paginate to work)" do
       set_cookie('page', '98')
