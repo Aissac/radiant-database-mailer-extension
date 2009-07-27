@@ -102,13 +102,7 @@ describe Admin::FormDatasController do
     it "is succesful" do
       do_get
       response.should be_redirect
-    end
-    
-    it "GET #most_viewed renders #most_viewed.js.rjs template if js requested" do
-      get :index, :format => 'csv'
-      response.should be_success
-    end
-    
+    end    
     
     it "parses list_params" do
       controller.should_receive(:filter_by_params).with(FormData::FILTER_COLUMNS)

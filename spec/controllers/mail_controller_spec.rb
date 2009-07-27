@@ -15,7 +15,7 @@ describe MailController do
   
   it "redirects to /contact-success on success" do
     do_post
-    response.should redirect_to('/contact-success')
+    response.should redirect_to('/contact/thank-you')
   end
   
   it "creates a new FormData from mailer params" do
