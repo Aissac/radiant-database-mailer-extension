@@ -13,7 +13,7 @@ Feature: Database Mailer
       And I fill in "Message" with "Hello from South Park"
       And I fill in "attachment"
      When I press "Send"
-          # email is send
+          # email is sent
      Then I should be on the thank you page
       And "contact@example.com" should receive 1 email
           # email is saved to database

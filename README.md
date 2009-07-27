@@ -4,7 +4,7 @@ Database Mailer
 About
 ---
 
-A [Radiant][rd] Extension by [Aissac][ai] that adds database persistence to emailed forms. It works on top of the Radiant [Mailer Extension][ma] and the fields recorded to the database are user defined. The extension adds a tab to the Radiant admin interface allowing you to browse saved records.
+A [Radiant][rd] Extension by [Aissac][ai] that adds database persistence to emailed forms. It works on top of the Radiant [Mailer Extension][rme] and the fields recorded to the database are user defined. The extension adds a tab to the Radiant admin interface allowing you to browse saved records.
 
 Tested on Radiant 0.7.1 and 0.8.
 
@@ -28,12 +28,9 @@ Install the `mailer` extension:
     git submodule add git://github.com/radiant/radiant-mailer-extension.git\
       vendor/extensions/mailer
 
-#### Note
+###Note
 
-At the time being you will need Aissac's version of the [Radiant Mailer Extension][arme], as it incorporates sending e-mails with attachments
-
-    git submodule add git://github.com/Aissac/radiant-mailer-extension.git\
-      vendor/extensions/mailer
+At the time being you will need Aissac's version of the [Radiant Mailer Extension][arme], as it incorporates sending e-mails with attachments.
 
 the `will_paginate` gem/plugin:   
 
@@ -103,16 +100,37 @@ Usage
 Create your Mailer pages and make sure to use the same field names:
 
     <r:mailer:form>
-      <r:mailer:hidden name="subject" value="Email from my Radiant site!" /> <br/>
-      Name:<br/>
-      <r:mailer:text name="name" /> <br/>
-      Email:<br/>
-      <r:mailer:text name="email" /> <br/>
-      
-      Message:<br/>
+      <label for="name">Name:</label><br/>
+      <r:mailer:text name="name" /><br/>
+
+      <label for="email">Email:</label><br/>
+      <r:mailer:text name="email" /><br/>
+  
+      <label for="message">Message:</label><br/>
       <r:mailer:textarea name="message" /> <br/>
+  
+      <label for="attachment">Image:</label><br/>
+      <r:mailer:file name="attachment" /><br/>
+  
       <input type="submit" value="Send" />
     </r:mailer:form>
+
+Create the `mailer` page part:
+
+    subject: From the website of Whatever
+    from: noreply@example.com
+    redirect_to: /contact/thank-you
+    recipients:
+      - one@one.com
+      - two@two.com
+      
+Create an `email` page part (to take advantage of the blob field):
+
+    <r:mailer>
+      Name: <r:get name="name" />
+      Email: <r:get name="email" />
+      Message: <r:get name="message" />
+    </r:mailer>
 
 Contributors
 ---
@@ -122,5 +140,5 @@ Contributors
 
 [rd]: http://radiantcms.org/
 [ai]: http://www.aissac.ro/
-[ma]: http://github.com/radiant/radiant-mailer-extension
+[rme]: http://github.com/radiant/radiant-mailer-extension
 [arme]: http://github.com/Aissac/radiant-mailer-extension
