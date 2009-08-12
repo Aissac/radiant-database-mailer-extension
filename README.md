@@ -58,6 +58,11 @@ Next edit `config/environment.rb` and add desired fields to be recorded:
       :email => :string
     }
 
+And finally add the [Database Mailer Extension][rdme]:
+
+    git submodule add git://github.com/Aissac/radiant-database-mailer-extension.git\
+      vendor/extensions/database_mailer
+
 Migrate and update the extension:
 
     rake radiant:extensions:database_mailer:migrate
@@ -142,3 +147,4 @@ Contributors
 [ai]: http://www.aissac.ro/
 [rme]: http://github.com/radiant/radiant-mailer-extension
 [arme]: http://github.com/Aissac/radiant-mailer-extension
+[rdme]: http://blog.aissac.ro/radiant/database-mailer-extension/
