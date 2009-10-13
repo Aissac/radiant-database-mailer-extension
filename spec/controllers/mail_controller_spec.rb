@@ -4,7 +4,7 @@ describe MailController do
   dataset :users, :mailers
   
   before do
-    login_as :developer
+    login_as :designer
     @form_data = mock_model(FormData)
     FormData.stub!(:create)
   end

@@ -1,21 +1,17 @@
+.grey
 #filtering
   = render :partial => "filters"
   = render :partial => "export"
 #results
   %table.results
     %thead
-      %tr.grey_bg
-        %th{:colspan => "#{data_columns.size + 4}"}
-          %div
-            = page_entries_info @saved_items
-          = will_paginate @saved_items, :inner_window => 1, :outer_window => 1
       %tr
         %th.created_at= sortable_column_head "Created at", :created_at
         %th.url= sortable_column_head "URL", :url
         - each_data_column do |k|
           %th= sortable_column_head k.to_s.capitalize, k
-        %th.url= sortable_column_head "Exported", :exported
-        %th Data
+        %th.exported= sortable_column_head "Exported", :exported
+        %th.actions Actions
     %tbody
       - @saved_items.each do |si|
         %tr
@@ -23,13 +19,16 @@
           %td= si.url
           = data_columns.map { |k| "<td>#{si.send(k)}</td>" }
           %td= si.exported ? date_format(si.exported) : "no"
-          %td
+          %td.actions
             = link_to "Show", admin_form_data_path(si)
             = link_to 'Delete', admin_form_data_path(si.id), :method => :delete, :confirm => "Really delete record?"
       - if @saved_items.empty?
         %tr
           %td{:colspan => data_columns.size + 2} No Results!
     %tfoot
-      %tr.grey_bg
-        %th{:colspan => "#{data_columns.size + 4}"}
-          = will_paginate @saved_items
+      %tr
+        %th{:colspan => 4}
+          = page_entries_info @saved_items
+        %th{:colspan => "#{data_columns.size}"}
+          = will_paginate @saved_items, :inner_window => 1, :outer_window => 1
+          

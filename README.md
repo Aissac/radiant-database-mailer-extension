@@ -68,14 +68,6 @@ Migrate and update the extension:
     rake radiant:extensions:database_mailer:migrate
     rake radiant:extensions:database_mailer:update
 
-###Note
-
-To get the Radiant 0.7.1 version tag you need to:
-
-    cd vendor/extensions/database_mailer/
-    git checkout v0.7
-
-
 Configuration
 ---
 

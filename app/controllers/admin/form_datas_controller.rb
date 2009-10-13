@@ -70,7 +70,7 @@ class Admin::FormDatasController < ApplicationController
     end
     
     def attach_assets
-      include_stylesheet "database_mailer"
+      include_stylesheet "admin/database_mailer"
       include_javascript "admin/database_mailer"
     end
 

@@ -4,7 +4,7 @@ describe Admin::FormDatasController do
   dataset :users
   
   before :each do
-    login_as :developer
+    login_as :designer
   end
   
   describe  'handling GET index' do
@@ -80,7 +80,6 @@ describe Admin::FormDatasController do
 
   describe 'handling GET index.csv' do
     before do
-      
       @list_params = mock("list_params")
       controller.stub!(:list_params).and_return(@list_params)
       controller.stub!(:filter_by_params)

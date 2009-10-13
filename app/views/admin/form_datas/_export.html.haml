@@ -1,5 +1,5 @@
 #x_filters
-  %a#x_expander{:href => "javascript:;"} Export
+  %a#x_expander.expand{:href => "javascript:;"} Export
 #x_form{:style => "display:none"}
   - form_tag(admin_form_datas_path, {:method => :get}) do
     = list_params.map {|k,v| hidden_field_tag(k,v)}.join
@@ -30,4 +30,4 @@
         %th &nbsp;
         %td
           = submit_tag "Export"
-          %a{:href => "javascript:closeX()"} Close
+  %a.close{:href => "javascript:closeX()"} Close

@@ -1,40 +1,50 @@
-#show.clearfix
-  %h2 Form Data
-  .left
-    %h3 Details
-    %table.result
-      %tr
-        %th Created_at
-        %td= date_format(@form_data.created_at)
-      %tr
-        %th URL:
-        %td= @form_data.url
+- body_classes << "reversed"
 
-      - data_columns.each do |dc|
-        %tr
-          %th= dc.to_s.capitalize
-          %td= @form_data.send(dc)
-      %tr
-        %th Exported
-        %td= @form_data.exported? ? date_format(@form_data.exported) : "no"
-    = link_to_function "Show sent e-mail", "$('blob-contents').update('#{escape_javascript(@form_data.blob)}'); $('blob-popup').show();"
-  .right
-    %h3 Attachments
-    - unless @form_data.form_data_assets.empty?
-      %table.attachments
-        %tr.grey_bg
-          %th Field Name
-          %th Link
-          %th Thumbnail
-        - @form_data.form_data_assets.each do |att|
+%h1 Form Data
+
+#show.clearfix
+  #tab_control
+    #tabs.tabs
+      %a#details_lnk.tab.here{ :href => "#", :onclick => "show_details();" }
+        %span details
+      - unless @form_data.form_data_assets.empty?
+        %a#attachments_lnk.tab{ :href => "#", :onclick => "show_attachments();" }
+          %span attachments
+    #pages.pages
+      #details.page
+        %table.result
           %tr
-            %td= att.field_name.blank? ? "Field:" : att.field_name.capitalize
-            %td
-              = link_to att.attachment_file_name, att.attachment.url
-            - if att.image?
-              %td
-                = image_tag att.attachment.url(:thumb)
-            - else
-              %td &nbsp;
-= link_to "Back", admin_form_datas_path
-= render :partial => "popups"
+            %th Created_at
+            %td= date_format(@form_data.created_at)
+            %th Sent version of the email
+          %tr
+            %th URL:
+            %td= @form_data.url
+            %td{ :rowspan => "#{data_columns.size + 2}" }= simple_format(@form_data.blob)
+          - data_columns.each do |dc|
+            %tr
+              %th= dc.to_s.capitalize
+              %td= @form_data.send(dc)
+          %tr
+            %th Exported
+            %td= @form_data.exported? ? date_format(@form_data.exported) : "no"
+      - unless @form_data.form_data_assets.empty?
+        #attachments.page{ :style => "display:none;"}
+          %table.attachments
+            %thead
+              %tr
+                %th Field Name
+                %th Link
+                %th Thumbnail
+            %tbody
+              - @form_data.form_data_assets.each do |att|
+                %tr
+                  %td= att.field_name.blank? ? "Field:" : att.field_name.capitalize
+                  %td
+                    = link_to att.attachment_file_name, att.attachment.url
+                  - if att.image?
+                    %td
+                      = image_tag att.attachment.url(:thumb)
+                  - else
+                    %td &nbsp;
+  = link_to "Back", admin_form_datas_path, :class => "back"

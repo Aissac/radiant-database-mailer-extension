@@ -1,5 +1,5 @@
 #filters
-  %a#expander{:href => 'javascript:;'} Filter
+  %a#expander.expand{:href => 'javascript:;'} Filter
   #current_filters
     - filters_present do
       Applied filters: 
@@ -12,17 +12,16 @@
       %tr
         %th
           %label{:for => "url"} URL:
-        %td{:colspan => "2"}
+        %td
           = select_tag("url", '<option value="">- All -</option>' + options_from_collection_for_select(@urls, "url", "url", list_params[:url]))
       - each_data_column do |k|
         %tr
           %th
             %label{:for => k} 
               = k.to_s.capitalize + ":"
-          %td{:colspan => "2"}
+          %td
             = text_field_tag k, list_params[k]
       %tr
         %th &nbsp;
         %td= filter_actions_tag
-        %td
-          %a{:href => "javascript:close()"} Close
+  %a.close{:href => "javascript:close()"} Close

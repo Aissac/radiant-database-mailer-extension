@@ -57,3 +57,17 @@ function closeX() {
     hideXForm()
   }
 }
+
+function show_details() {
+  $('attachments').hide();
+  $('details').show();
+  $('details_lnk').addClassName('here');
+  $('attachments_lnk').removeClassName('here');  
+}
+
+function show_attachments() {
+  $('attachments').show();
+  $('details').hide();
+  $('details_lnk').removeClassName('here');
+  $('attachments_lnk').addClassName('here');
+}

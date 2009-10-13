@@ -1,0 +1,235 @@
+.clearfix:after
+  :content "."
+  :display block
+  :height 0
+  :clear both
+  :visibility hidden
+.clearfix
+  :display inline-block
+.clearfix
+  :display block
+
+.grey
+  :background-color #9E9E9E
+  :height 21px
+  :margin -20px -20px 0 -20px
+
+table.results
+  :width 100%
+  a
+    &.sort_asc
+      background: transparent url(/images/admin/metadata_toggle.png) no-repeat scroll 95% 5px
+      padding-right: 15px
+
+    &.sort_desc
+      background: transparent url(/images/admin/metadata_toggle.png) no-repeat scroll 95% -23px
+      padding-right: 15px
+  thead
+    th
+      :background-color #7E7E7E
+      :font-weight normal
+      :padding 2px 4px
+      :text-shadow 1px 1px 0 #666666
+      :color white
+      :font-size 90%
+      &.created_at
+        :width 150px
+      &.url, &.exported
+        :width 200px
+      &.actions
+        :width 100px
+      a
+        :text-shadow 1px 1px 0 #666666
+        :color white
+        :font-size 90%
+  tbody
+    tr:hover
+      :background-color #ecf4ff
+    td
+      :border-bottom 1px solid #F0F0F0
+      :padding 8px 4px
+      :text-align left
+      :vertical-align top
+      &.actions a
+        :color black
+        :text-decoration none
+        &:hover
+          :text-decoration underline
+  tfoot
+    th
+      :background-color #7E7E7E
+      :font-weight normal
+      :padding 2px 4px
+      :text-shadow 1px 1px 0 #666666
+      :color white
+      :font-size 90%
+      :vertical-align middle
+      a
+        :text-shadow 1px 1px 0 #666666
+        :color white
+        :font-size 90%
+
+.pagination
+  :text-align center
+  :float right
+  :margin-right 20px
+  a
+    :text-shadow 1px 1px 0 #666666
+    :color white
+    :font-size 90%
+    :padding .2em .3em
+    :text-decoration none
+    &:hover, &:focus
+      :text-decoration underline
+  span
+    :padding .2em .3em
+    &.disabled
+      :color #CCC
+    &.current
+      :font-weight bold
+      :background-color #cac8c0
+      :display inline-block
+      :padding 3px 8px
+      :-webkit-border-radius 12px
+      :-moz-border-radius 12px
+      
+#filtering
+  position: relative
+  :height 35px
+  a.expand
+    :-moz-border-radius-bottomleft 6px
+    :-moz-border-radius-bottomright 6px
+    :-webkit-border-bottom-left-radius 6px
+    :-webkit-border-bottom-right-radius 6px
+    :text-shadow 1px 1px 0 #666666
+    :outline none
+    :z-index 100
+    :padding 3px 20px 3px 10px
+    :color #000
+    :position absolute
+    :background #7E7E7E url(/images/admin/metadata_toggle.png) no-repeat 92% 8px
+    :cursor pointer
+    :color white
+    :text-decoration none
+    :font-size 80%
+  .expanded a.expand
+    :-moz-border-radius-topleft 6px
+    :-moz-border-radius-topright 6px
+    :-moz-border-radius-bottomleft 0
+    :-moz-border-radius-bottomright 0
+    :-webkit-border-top-left-radius 6px
+    :-webkit-border-top-right-radius 6px
+    :-webkit-border-bottom-left-radius 0
+    :-webkit-border-bottom-right-radius 0
+    :background #7E7E7E url(/images/admin/metadata_toggle.png) no-repeat 92% -20px
+
+#x_expander
+  right: 0
+
+#form, #x_form
+  background-color: #7E7E7E
+  z-index: 10
+  position: absolute
+  top: 22px
+  width: 350px
+  :-moz-border-radius 6px
+  :-webkit-border-radius 6px
+  :border 1px solid #999999
+  border-top-left-radius: 6px
+  border-top-right-radius: 6px
+  :color white
+  input[type="text"]
+    :width 210px
+  a.close
+    :background transparent url('/images/admin/tab_close.png') no-repeat left top
+    :text-indent -9999px
+    :display block
+    :width 16px
+    :height 16px
+    :float right
+    :margin 0 5px 5px 0
+
+#form
+  :-webkit-border-top-left-radius 0
+  :-moz-border-radius-topleft 0
+  a
+    :color white
+    :text-decoration none
+    &:hover
+      :text-decoration underline
+      
+#x_form
+  right: 0
+  :-moz-border-radius-topright 0
+  :-webkit-border-top-right-radius 0
+  :padding 5px 0 0 5px
+  
+table.search
+  :width 340px
+  :margin-left 5px
+  tr
+    :border-top 1px solid #999999
+    &:first-child
+      :border none
+  th, td
+    :padding 5px
+    :vertical-align middle
+  th
+    :width 100px
+    label
+      :color white
+      :font-size 80%
+  td
+    :width 220px
+  
+table.export
+  :width 340px
+  :margin-left 5px
+  tr
+    :border-top 1px solid #999999
+    &:first-child
+      :border none
+  th
+    :padding 3px 0 3px 5px
+  td
+    :padding 3px 5px 3px 0
+
+#current_filters
+  margin-left: 100px
+  padding-top: 3px
+  position: absolute
+  width: 600px
+
+  a
+    color: #000
+
+#show
+  a.back
+    :color red
+    :font-size 80%
+    :text-decoration none
+    &:hover
+      :text-decoration underline
+  .page
+    :min-height 350px
+  table.result
+    :width 96%
+    :margin-left 2%
+    tr
+      :border-bottom 1px solid #ccc
+    th
+      :font-weight bold
+    th, td
+      :padding 5px 10px
+      :vertical-align top
+  table.attachments
+    :width 700px
+    tr
+      :border-bottom 1px solid #ccc
+    th
+      :font-weight bold
+    th, td
+      :padding 5px 10px
+      :vertical-align top
+    a
+      :color black
