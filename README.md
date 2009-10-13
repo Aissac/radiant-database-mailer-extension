@@ -6,7 +6,7 @@ About
 
 A [Radiant][rd] Extension by [Aissac][ai] that adds database persistence to emailed forms. It works on top of the Radiant [Mailer Extension][rme] and the fields recorded to the database are user defined. The extension adds a tab to the Radiant admin interface allowing you to browse saved records.
 
-Tested on Radiant 0.7.1 and 0.8.
+Tested on Radiant 0.7.1, 0.8 and 0.9 RC1.
 
 Features
 ---
