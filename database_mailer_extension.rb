@@ -26,5 +26,4 @@ class DatabaseMailerExtension < Radiant::Extension
   
   def deactivate
   end
-  
 end
