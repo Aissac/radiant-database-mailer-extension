@@ -33,7 +33,7 @@ At the time being you will need Aissac's version of the [Radiant Mailer Extensio
 
 the `will_paginate` gem/plugin:   
 
-    git submodule add git://github.com/mislav/will_paginate.git vendor/plugins/will_paginate
+    git clone git://github.com/mislav/will_paginate.git vendor/plugins/will_paginate
     
 or
 
