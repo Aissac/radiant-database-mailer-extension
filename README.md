@@ -18,6 +18,22 @@ Features
 * Admin interface to browse saved records
 * Export data to CSV and XLS
 
+Important Notice!
+---
+
+The git branches on this repository hold stable versions of the extension for older version of Radiant CMS. For example the _0.8_ branch is compatible with Radiant 0.8. 
+
+To checkout one of these branches:
+
+    git clone git://github.com/Aissac/radiant-database-mailer-extension.git vendor/extensions/database_mailer
+    cd vendor/extensions/database_mailer
+    git checkout -b <branch-name> origin/<remote-branch-name>
+
+As an example if you're working on Radiant 0.8 you will need to checkout the 0.8 branch:
+    
+    cd vendor/extensions/database_mailer
+    git checkout -b my_branch origin/0.8
+
 Installation
 ---
 
@@ -63,14 +79,6 @@ Migrate and update the extension:
 
     rake radiant:extensions:database_mailer:migrate
     rake radiant:extensions:database_mailer:update
-
-###Note
-
-The git branches hold stable versions of the extension for older version of Radiant CMS. To checkout one of these branches:
-
-    git clone git://github.com/Aissac/radiant-database-mailer-extension.git vendor/extensions/database_mailer
-    cd vendor/extensions/database_mailer
-    git checkout -b <branch-name> origin/<remote-branch-name>
 
 Configuration
 ---
