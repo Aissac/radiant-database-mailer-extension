@@ -21,7 +21,7 @@ Features
 Important Notice!
 ---
 
-The git branches on this repository hold stable versions of the extension for older version of Radiant CMS. For example the _0.8_ branch is compatible with Radiant 0.8. 
+The git branches on this repository hold stable versions of the extension for older versions of Radiant CMS. For example the _0.8_ branch is compatible with Radiant 0.8. 
 
 To checkout one of these branches:
 
