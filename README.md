@@ -8,6 +8,8 @@ A [Radiant][rd] Extension by [Aissac][ai] that adds database persistence to emai
 
 Tested on Radiant 0.7.1, 0.8 and 0.9 RC1.
 
+Check out the [screencast][rce]
+
 Features
 ---
 
@@ -53,7 +55,7 @@ the `will_paginate` gem/plugin:
     
 or
 
-    sudo gem install mislav-will_paginate --source http://gems.github.com
+    sudo gem install will_paginate
 
 and the `paperclip` gem/plugin 
 
@@ -61,7 +63,7 @@ and the `paperclip` gem/plugin
 
 or
 
-    sudo gem install thoughtbot-paperclip --source http://gems.github.com
+    sudo gem install paperclip
 
 Next edit `config/environment.rb` and add desired fields to be recorded:
 
@@ -154,3 +156,4 @@ Contributors
 [rdme]: http://blog.aissac.ro/radiant/database-mailer-extension/
 [cd]: http://twitter.com/cristi_duma
 [ih]: http://twitter.com/ihoka
+[rce]:http://blog.aissac.ro/2010/03/16/episode-5-radiant-database-mailer-extension/
