@@ -12,18 +12,20 @@ class DatabaseMailerExtension < Radiant::Extension
       end
     end
   end
-  
+
   def activate
     throw "MailerExtension must be loaded before DatabaseMailerExtension" unless defined?(MailerExtension)
     MailController.class_eval do
       include DatabaseMailerProcessing
       alias_method_chain :process_mail, :database
     end
-    admin.nav["content"] << admin.nav_item(:database_mailer, "Database Mailer", "/admin/form_datas")
-        
+    tab "Content" do
+      add_item "Database Mailer", "/admin/form_datas"
+    end
+
     Mime::Type.register "application/vnd.ms-excel", :xls
   end
-  
+
   def deactivate
   end
 end
