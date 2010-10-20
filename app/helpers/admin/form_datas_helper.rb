@@ -29,7 +29,7 @@ module Admin::FormDatasHelper
   end
   
   def date_format(timestamp)
-    timestamp && timestamp.to_date.to_s(:rfc822)
+    timestamp && l(timestamp, :format => :long)
   end
   
   def filters_present(&block)
