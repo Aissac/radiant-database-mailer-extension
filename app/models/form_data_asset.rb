@@ -1,3 +1,5 @@
+require 'paperclip'
+
 class FormDataAsset < ActiveRecord::Base
   belongs_to :form_data
   
