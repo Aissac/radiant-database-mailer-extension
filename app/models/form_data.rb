@@ -30,7 +30,7 @@ class FormData < ActiveRecord::Base
   end
   
   def self.find_all_group_by_url
-     find(:all, :group => 'url')
+     find(:all, :group => 'url', :select => 'url')
   end
   
   def self.find_for_export(params, export_all)
